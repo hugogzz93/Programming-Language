@@ -8,7 +8,7 @@ programa a4,
     Adentro de la funcion, recuerda esto: la variable c es el entero 2.
     Sumale b a x. Regresa la suma de x con c.
 
-    Si a1 es diferente que 5; la variable b es el entero a1.
+    Si a1 es diferente que 5; la variable b es el entero la multiplicacion de 5 con 6.
     De lo contrario la variable c es el entero llama add con el entero a1 y el entero b.
 
     Para cada numero del 1 al 10: sumale numero a b..
