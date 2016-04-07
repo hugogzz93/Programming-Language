@@ -7,13 +7,16 @@ using namespace std;
 class ProcedureRecord
 {
 public:
-	// ProcedureRecord(string name);
-	// ProcedureRecord();
+	ProcedureRecord(const string& type, const string& variable_name, const string& value);
+	ProcedureRecord();
 	
+	string getType();
 	string getName();
+	string getValue();
+	
 	void setName(string name);
 
 private:
-	string name;
+	string type, name, value;
 };
 #endif

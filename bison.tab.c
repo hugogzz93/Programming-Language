@@ -218,6 +218,10 @@
 
 	#include <cstdio>
 	#include <iostream>
+	#include <vector>
+	#include "ProcedureRecord.h"
+	#include "ProcedureDirectory.h"
+	#include "SemanticCube.h"
 	using namespace std;
 
 	// stuff from flex that bison needs to know about:
@@ -228,6 +232,13 @@
 	extern "C" int line_num;
 	 
 	void yyerror(const char *s);
+
+	// procedure directory
+	vector<ProcedureRecord> procDir;
+
+	// semantic cube
+	SemanticCube cube;
+
 
 
 /* Enabling traces.  */
@@ -250,14 +261,14 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 16 "bison.y"
+#line 27 "bison.y"
 {
 	int ival;
 	float fval;
 	char *sval;
 }
 /* Line 193 of yacc.c.  */
-#line 261 "bison.tab.c"
+#line 272 "bison.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -270,7 +281,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 274 "bison.tab.c"
+#line 285 "bison.tab.c"
 
 #ifdef short
 # undef short
@@ -607,20 +618,20 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   106,   106,   109,   110,   114,   117,   120,   123,   124,
-     127,   128,   132,   135,   138,   139,   143,   144,   148,   151,
-     152,   155,   159,   182,   186,   187,   188,   189,   190,   191,
-     194,   195,   199,   200,   203,   206,   209,   210,   211,   215,
-     216,   217,   218,   219,   222,   226,   227,   231,   234,   235,
-     237,   238,   241,   244,   248,   249,   251,   253,   254,   257,
-     260,   261,   262,   263,   266,   267,   268,   269,   270,   271,
-     274,   275,   276,   277,   278,   279,   280,   283,   286,   287,
-     290,   293,   294,   297,   298,   301,   304,   307,   308,   309,
-     312,   313,   319,   320,   321,   342,   345,   346,   349,   352,
-     353,   356,   357,   360,   361,   362,   363,   366,   369,   370,
-     373,   374,   375,   378,   379,   380,   383,   386,   389,   390,
-     393,   394,   397,   400,   401,   404,   408,   409,   412,   414,
-     416,   417,   420
+       0,   117,   117,   120,   121,   125,   128,   131,   134,   135,
+     138,   139,   143,   146,   149,   150,   154,   155,   159,   162,
+     163,   166,   170,   193,   197,   198,   199,   200,   201,   202,
+     205,   206,   210,   211,   214,   217,   220,   221,   222,   226,
+     227,   228,   229,   230,   233,   237,   238,   242,   245,   246,
+     248,   249,   252,   255,   259,   260,   262,   264,   265,   268,
+     271,   272,   273,   274,   277,   278,   279,   280,   281,   282,
+     285,   286,   287,   288,   289,   290,   291,   294,   297,   298,
+     301,   304,   305,   308,   309,   312,   315,   318,   319,   320,
+     323,   324,   330,   331,   332,   353,   356,   357,   360,   363,
+     364,   367,   368,   371,   372,   373,   374,   377,   380,   381,
+     384,   385,   386,   389,   390,   391,   394,   397,   400,   401,
+     404,   405,   408,   411,   412,   415,   419,   420,   423,   425,
+     427,   428,   431
 };
 #endif
 
@@ -1693,13 +1704,13 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 106 "bison.y"
-    { printf("Accepted Syntax!\n"); ;}
+#line 117 "bison.y"
+    { printf("Accepted Syntax!\n");;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1703 "bison.tab.c"
+#line 1714 "bison.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1913,7 +1924,7 @@ yyreturn:
 }
 
 
-#line 423 "bison.y"
+#line 434 "bison.y"
 
 
 int main(int, char**) {

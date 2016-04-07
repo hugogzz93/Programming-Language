@@ -1,6 +1,10 @@
 %{
 	#include <cstdio>
 	#include <iostream>
+	#include <vector>
+	#include "ProcedureRecord.h"
+	#include "ProcedureDirectory.h"
+	#include "SemanticCube.h"
 	using namespace std;
 
 	// stuff from flex that bison needs to know about:
@@ -11,6 +15,13 @@
 	extern "C" int line_num;
 	 
 	void yyerror(const char *s);
+
+	// procedure directory
+	ProcedureDirectory procDir;
+
+	// semantic cube
+	SemanticCube cube;
+
 %}
 
 %union {
@@ -103,7 +114,7 @@
 %%
 
 	programa:
-				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n"); };
+				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n");};
 
 	programa_a:
 				COLON
