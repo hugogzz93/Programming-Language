@@ -12,7 +12,7 @@ class ProcedureDirectory
 public:
 	ProcedureDirectory();
 
-	void assignVariable(const string& type, const string& variable_name, const string& value);
+	void assignVariable(string type, string variable_name, string value);
 	void listDirectory();
 
 private:

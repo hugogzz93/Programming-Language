@@ -3,7 +3,7 @@
 
 using namespace std;
 
-ProcedureRecord::ProcedureRecord(const string& type, const string& variable_name, const string& value): type(type), name(name), value(value) {};
+ProcedureRecord::ProcedureRecord(string type, string variable_name, string value): type(type), name(name), value(value) {};
 ProcedureRecord::ProcedureRecord() {}
 
 string ProcedureRecord::getName() {

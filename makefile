@@ -1,5 +1,6 @@
 all: flex semanticCube procedureDirectory
 	g++ -w -std=c++11 bison.tab.c lex.yy.c SemanticCube.o ProcedureRecord.o ProcedureDirectory.o -ll -o out
+	clear
 	./out
 
 flex: bison

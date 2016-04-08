@@ -18,9 +18,10 @@
 
 	// procedure directory
 	ProcedureDirectory procDir;
-
 	// semantic cube
 	SemanticCube cube;
+
+	
 
 %}
 
@@ -111,10 +112,12 @@
 %token <sval> ID
 %token <sval> STRING
 
+%type<sval> expression
+
 %%
 
 	programa:
-				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n");};
+				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n"); } ;
 
 	programa_a:
 				COLON
@@ -143,7 +146,7 @@
 				vars low_block_a ;
 
 	low_block_a:
-				statute low_block_b;
+				statute low_block_b ;
 
 	low_block_b:
 				low_block_a
@@ -234,15 +237,15 @@
 
 
 	condition:
-				block_condition
+				{printf("condition start on line %d\n", line_num)} block_condition { printf("condition finished, %d\n", line_num)}
 				| condition_suffix ;
 
 
 	block_condition:
-				block_condition_pre declaration SEMICOLON low_block block_condition_a
+				block_condition_pre declaration SEMICOLON low_block DOT block_condition_a
 
 	block_condition_a:
-				block_condition_else low_block
+				block_condition_else low_block DOT
 				| ;
 	block_condition_pre:
 				SI 
@@ -274,21 +277,21 @@
 				| DIVIDEDBY ;
 
 	expression:
-				operation
-				| function_call
+				operation 
+				| function_call 
 				| INT 
-				| FLOAT
+				| FLOAT 
 				| STRING 
 				| ID ;
 
 	statute:
-				expression DOT
-				| condition
-				| var_assignment DOT
-				| function_declaration 
-				| mutation DOT 
-				| while 
-				| for ;
+				expression DOT { printf("Statute finished: %d\n", line_num)}   
+				| condition { printf("Statute finished: %d\n", line_num)}  
+				| var_assignment DOT { printf("Statute finished: %d\n", line_num)} 
+				| function_declaration { printf("Statute finished: %d\n", line_num)}  
+				| mutation DOT { printf("Statute finished: %d\n", line_num)}  
+				| while { printf("Statute finished: %d\n", line_num)}  
+				| for { printf("Statute finished: %d\n", line_num)} ;
 
 	func_block:
 				vars func_block_a REGRESA expression DOT ;
@@ -412,7 +415,7 @@
 				| HASTA QUE ;
 
 	while_end:
-				DOT ;
+				DOT {printf("while end: %d\n", line_num)} ;
 
 
 	for:
@@ -428,7 +431,7 @@
 				| DEL INT AL INT ;
 
 	for_end:
-				DOT ;
+				DOT {printf("For end: %d\n", line_num)} ;
 
 
 %%
