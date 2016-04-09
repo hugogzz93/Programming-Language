@@ -1385,12 +1385,12 @@ YY_RULE_SETUP
 case 82:
 YY_RULE_SETUP
 #line 96 "flex.l"
-{ yylval.fval = atof(yytext); return FLOAT; }
+{ yylval.sval = strdup(yytext); return FLOAT; }
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
 #line 97 "flex.l"
-{ yylval.ival = atoi(yytext); return INT; }
+{ yylval.sval = strdup(yytext); return INT; }
 	YY_BREAK
 case 84:
 YY_RULE_SETUP

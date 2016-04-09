@@ -7,7 +7,7 @@ using namespace std;
 class ProcedureRecord
 {
 public:
-	ProcedureRecord(string type, string variable_name, string value);
+	ProcedureRecord(string type, string name, string value);
 	ProcedureRecord();
 	
 	string getType();

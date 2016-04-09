@@ -2,6 +2,9 @@
 	#include <cstdio>
 	#include <iostream>
 	#include <vector>
+	#include <string>
+	#include <stdlib.h>
+	#include <cstring>
 	#include "ProcedureRecord.h"
 	#include "ProcedureDirectory.h"
 	#include "SemanticCube.h"
@@ -21,6 +24,33 @@
 	// semantic cube
 	SemanticCube cube;
 
+	inline void assignVariable(char* type, char* name, char* value) {
+		string sName(name), sType(type), sVal(value);
+		procDir.assignVariable(sType, sName, sVal);
+	}
+
+	inline void listDirectory() {
+		procDir.listDirectory();
+	}
+
+	char * intToChar(const int number) {
+
+		std::string s = std::to_string(number);
+		const char *pchar = s.c_str();  //use char const* as target type
+
+		char temp[51];
+	    strncpy(temp,pchar,51);
+
+		return temp;
+	}
+
+	// inline void test() {
+	// 	procDir.assignVariable("int", "x", "123");
+	// 	procDir.assignVariable("string", "name", "dag");
+
+	// 	procDir.listDirectory();
+
+	// }
 	
 
 %}
@@ -107,17 +137,20 @@
 
 
 // terminal
-%token <ival> INT
-%token <fval> FLOAT
+%token <sval> INT
+%token <sval> FLOAT
 %token <sval> ID
 %token <sval> STRING
 
 %type<sval> expression
+%type<sval> operation
+%type<sval> operator_spa
+%type<sval> function_call type
 
 %%
 
 	programa:
-				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n"); } ;
+				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n"); listDirectory(); } ;
 
 	programa_a:
 				COLON
@@ -159,7 +192,7 @@
 
 
 	var_assignment:
-				LA VARIABLE ID ES EL type expression var_assignment_a; 
+				LA VARIABLE ID ES EL type expression var_assignment_a { assignVariable($6, $3, $7); } ; 
 
 	var_assignment_a:
 				COMA var_assignment ;
@@ -170,8 +203,8 @@
 
 
 	operation:
-				operation_spa 
-				| operation_norm;
+				operation_spa {  $$ = "operation";}
+				| operation_norm {$$ = "operation"; } ;
 
 	operation_norm:
 				t operation_norm_a;
@@ -193,16 +226,16 @@
 
 
 	operation_spa:
-				LA operator_spa DE operand concatenation_op operand;
+				LA operator_spa DE operand concatenation_op operand ;
 
 
 	operator_spa:
-				SUMA
-				| ADICION
-				| RESTA
-				| SUBSTRACCION
-				| MULTIPLICACION
-				| DIVISION ;
+				SUMA { $$ = "SUMA"; }
+				| ADICION { $$ = "ADICION"; }
+				| RESTA { $$ = "RESTA"; }
+				| SUBSTRACCION { $$ = "SUBSTRACCION"; }
+				| MULTIPLICACION { $$ = "MULTIPLICACION"; }
+				| DIVISION { $$ = "DIVISION"; } ; 
 
 	concatenation_op:
 				CON
@@ -277,15 +310,15 @@
 				| DIVIDEDBY ;
 
 	expression:
-				operation 
-				| function_call 
-				| INT 
-				| FLOAT 
-				| STRING 
-				| ID ;
+				operation  { $$ = $1; }
+				| function_call  { $$ = $1; }
+				| INT  {  $$ = $1; }
+				| FLOAT  { $$ = $1; }
+				| STRING  { $$ = $1; }
+				| ID { $$ = $1; } ;
 
 	statute:
-				expression DOT { printf("Statute finished: %d\n", line_num)}   
+				expression DOT { printf("Statute exp finished: %d, '%s'\n", line_num, $1); }
 				| condition { printf("Statute finished: %d\n", line_num)}  
 				| var_assignment DOT { printf("Statute finished: %d\n", line_num)} 
 				| function_declaration { printf("Statute finished: %d\n", line_num)}  
@@ -330,9 +363,9 @@
 
 
 	type:
-				TYPEINT
-				| TYPEFLOAT
-				| TYPESTRING ;
+				TYPEINT { $$ = "INT"; }
+				| TYPEFLOAT { $$ = "FLOAT"; }
+				| TYPESTRING { $$ = "STRING"; } ;  
 
 	flotante: 
 				TYPEFLOAT;
@@ -353,7 +386,7 @@
 
 
 	function_call:
-				LLAMA ID CON function_call_a ;
+				LLAMA ID CON function_call_a { $$ = "function"; };
 
 	function_call_a:
 				LA VARIABLE function_call_b 

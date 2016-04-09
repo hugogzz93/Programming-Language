@@ -219,6 +219,9 @@
 	#include <cstdio>
 	#include <iostream>
 	#include <vector>
+	#include <string>
+	#include <stdlib.h>
+	#include <cstring>
 	#include "ProcedureRecord.h"
 	#include "ProcedureDirectory.h"
 	#include "SemanticCube.h"
@@ -238,6 +241,33 @@
 	// semantic cube
 	SemanticCube cube;
 
+	inline void assignVariable(char* type, char* name, char* value) {
+		string sName(name), sType(type), sVal(value);
+		procDir.assignVariable(sType, sName, sVal);
+	}
+
+	inline void listDirectory() {
+		procDir.listDirectory();
+	}
+
+	char * intToChar(const int number) {
+
+		std::string s = std::to_string(number);
+		const char *pchar = s.c_str();  //use char const* as target type
+
+		char temp[51];
+	    strncpy(temp,pchar,51);
+
+		return temp;
+	}
+
+	// inline void test() {
+	// 	procDir.assignVariable("int", "x", "123");
+	// 	procDir.assignVariable("string", "name", "dag");
+
+	// 	procDir.listDirectory();
+
+	// }
 	
 
 
@@ -262,14 +292,14 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 28 "bison.y"
+#line 58 "bison.y"
 {
 	int ival;
 	float fval;
 	char *sval;
 }
 /* Line 193 of yacc.c.  */
-#line 273 "bison.tab.c"
+#line 303 "bison.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -282,7 +312,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 286 "bison.tab.c"
+#line 316 "bison.tab.c"
 
 #ifdef short
 # undef short
@@ -619,20 +649,20 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   120,   120,   123,   124,   128,   131,   134,   137,   138,
-     141,   142,   146,   149,   152,   153,   157,   158,   162,   165,
-     166,   169,   173,   196,   200,   201,   202,   203,   204,   205,
-     208,   209,   213,   214,   217,   220,   223,   224,   225,   229,
-     230,   231,   232,   233,   236,   240,   240,   241,   245,   248,
-     249,   251,   252,   255,   258,   262,   263,   265,   267,   268,
-     271,   274,   275,   276,   277,   280,   281,   282,   283,   284,
-     285,   288,   289,   290,   291,   292,   293,   294,   297,   300,
-     301,   304,   307,   308,   311,   312,   315,   318,   321,   322,
-     323,   326,   327,   333,   334,   335,   356,   359,   360,   363,
-     366,   367,   370,   371,   374,   375,   376,   377,   380,   383,
-     384,   387,   388,   389,   392,   393,   394,   397,   400,   403,
-     404,   407,   408,   411,   414,   415,   418,   422,   423,   426,
-     428,   430,   431,   434
+       0,   153,   153,   156,   157,   161,   164,   167,   170,   171,
+     174,   175,   179,   182,   185,   186,   190,   191,   195,   198,
+     199,   202,   206,   229,   233,   234,   235,   236,   237,   238,
+     241,   242,   246,   247,   250,   253,   256,   257,   258,   262,
+     263,   264,   265,   266,   269,   273,   273,   274,   278,   281,
+     282,   284,   285,   288,   291,   295,   296,   298,   300,   301,
+     304,   307,   308,   309,   310,   313,   314,   315,   316,   317,
+     318,   321,   322,   323,   324,   325,   326,   327,   330,   333,
+     334,   337,   340,   341,   344,   345,   348,   351,   354,   355,
+     356,   359,   360,   366,   367,   368,   389,   392,   393,   396,
+     399,   400,   403,   404,   407,   408,   409,   410,   413,   416,
+     417,   420,   421,   422,   425,   426,   427,   430,   433,   436,
+     437,   440,   441,   444,   447,   448,   451,   455,   456,   459,
+     461,   463,   464,   467
 };
 #endif
 
@@ -1720,68 +1750,158 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 120 "bison.y"
-    { printf("Accepted Syntax!\n"); ;}
+#line 153 "bison.y"
+    { printf("Accepted Syntax!\n"); listDirectory(); ;}
+    break;
+
+  case 18:
+#line 195 "bison.y"
+    { assignVariable((yyvsp[(6) - (8)].sval), (yyvsp[(3) - (8)].sval), (yyvsp[(7) - (8)].sval)); ;}
+    break;
+
+  case 22:
+#line 206 "bison.y"
+    {  (yyval.sval) = "operation";;}
+    break;
+
+  case 24:
+#line 233 "bison.y"
+    { (yyval.sval) = "SUMA"; ;}
+    break;
+
+  case 25:
+#line 234 "bison.y"
+    { (yyval.sval) = "ADICION"; ;}
+    break;
+
+  case 26:
+#line 235 "bison.y"
+    { (yyval.sval) = "RESTA"; ;}
+    break;
+
+  case 27:
+#line 236 "bison.y"
+    { (yyval.sval) = "SUBSTRACCION"; ;}
+    break;
+
+  case 28:
+#line 237 "bison.y"
+    { (yyval.sval) = "MULTIPLICACION"; ;}
+    break;
+
+  case 29:
+#line 238 "bison.y"
+    { (yyval.sval) = "DIVISION"; ;}
     break;
 
   case 45:
-#line 240 "bison.y"
+#line 273 "bison.y"
     {printf("condition start on line %d\n", line_num);}
     break;
 
   case 46:
-#line 240 "bison.y"
+#line 273 "bison.y"
     { printf("condition finished, %d\n", line_num);}
     break;
 
+  case 65:
+#line 313 "bison.y"
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); ;}
+    break;
+
+  case 66:
+#line 314 "bison.y"
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); ;}
+    break;
+
+  case 67:
+#line 315 "bison.y"
+    {  (yyval.sval) = (yyvsp[(1) - (1)].sval); ;}
+    break;
+
+  case 68:
+#line 316 "bison.y"
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); ;}
+    break;
+
+  case 69:
+#line 317 "bison.y"
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); ;}
+    break;
+
+  case 70:
+#line 318 "bison.y"
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); ;}
+    break;
+
   case 71:
-#line 288 "bison.y"
-    { printf("Statute finished: %d\n", line_num);}
+#line 321 "bison.y"
+    { printf("Statute exp finished: %d, '%s'\n", line_num, (yyvsp[(1) - (2)].sval)); ;}
     break;
 
   case 72:
-#line 289 "bison.y"
+#line 322 "bison.y"
     { printf("Statute finished: %d\n", line_num);}
     break;
 
   case 73:
-#line 290 "bison.y"
+#line 323 "bison.y"
     { printf("Statute finished: %d\n", line_num);}
     break;
 
   case 74:
-#line 291 "bison.y"
+#line 324 "bison.y"
     { printf("Statute finished: %d\n", line_num);}
     break;
 
   case 75:
-#line 292 "bison.y"
+#line 325 "bison.y"
     { printf("Statute finished: %d\n", line_num);}
     break;
 
   case 76:
-#line 293 "bison.y"
+#line 326 "bison.y"
     { printf("Statute finished: %d\n", line_num);}
     break;
 
   case 77:
-#line 294 "bison.y"
+#line 327 "bison.y"
     { printf("Statute finished: %d\n", line_num);}
     break;
 
+  case 93:
+#line 366 "bison.y"
+    { (yyval.sval) = "INT"; ;}
+    break;
+
+  case 94:
+#line 367 "bison.y"
+    { (yyval.sval) = "FLOAT"; ;}
+    break;
+
+  case 95:
+#line 368 "bison.y"
+    { (yyval.sval) = "STRING"; ;}
+    break;
+
+  case 96:
+#line 389 "bison.y"
+    { (yyval.sval) = "function"; ;}
+    break;
+
   case 126:
-#line 418 "bison.y"
+#line 451 "bison.y"
     {printf("while end: %d\n", line_num);}
     break;
 
   case 133:
-#line 434 "bison.y"
+#line 467 "bison.y"
     {printf("For end: %d\n", line_num);}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1785 "bison.tab.c"
+#line 1905 "bison.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1995,7 +2115,7 @@ yyreturn:
 }
 
 
-#line 437 "bison.y"
+#line 470 "bison.y"
 
 
 int main(int, char**) {
