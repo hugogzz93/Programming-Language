@@ -5,6 +5,9 @@
 using namespace std;
 
 ProcedureRecord::ProcedureRecord(string type, string name, vector<VariableRecord> parameterDir): type(type), name(name), parameterDir(parameterDir) {}
+ProcedureRecord::ProcedureRecord(string type, string name, vector<VariableRecord> parameterDir, vector<VariableRecord> variableDir): 
+	type(type), name(name), parameterDir(parameterDir), variableDir(variableDir) {}
+	
 ProcedureRecord::ProcedureRecord() {}
 
 void ProcedureRecord::setReturnType(string type) {
@@ -40,11 +43,11 @@ void ProcedureRecord::addVariable(string type, string name) {
 		}
 	}
 
-	if (!repeatedName)
-	{
+	if (!repeatedName) {
 		VariableRecord newRecord(type, name);
 		variableDir.push_back(newRecord);
 	}
+
 }
 
 void ProcedureRecord::showSignature() {

@@ -5,9 +5,11 @@
 	#include <string>
 	#include <stdlib.h>
 	#include <cstring>
+	#include <stack>
 	#include "ProcedureRecord.h"
 	#include "ProcedureDirectory.h"
 	#include "SemanticCube.h"
+	#include "QuadrupleGenerator.h"
 	using namespace std;
 
 	// stuff from flex that bison needs to know about:
@@ -19,10 +21,20 @@
 	 
 	void yyerror(const char *s);
 
-	// procedure directory
 	ProcedureDirectory procDir;
-	// semantic cube
 	SemanticCube cube;
+	QuadrupleGenerator quadGenerator;
+
+
+	inline void enterLocalScope(char * cName) {
+		procDir.enterLocalScope();
+		printf("Entering Scope of: %s\n", cName);
+	}
+
+	inline void exitLocalScope() {
+		procDir.enterGlobalScope();
+
+	}
 
 	inline void addParameter(char* type, char* name) {
 		string sName(name), sType(type);
@@ -215,8 +227,8 @@
 
 
 	operation:
-				operation_spa {  $$ = "operation";}
-				| operation_norm {$$ = "operation"; } ;
+				operation_spa {$$ = "operation";}
+				| operation_norm {$$ = "operation";} ;
 
 	operation_norm:
 				t operation_norm_a;
@@ -324,7 +336,7 @@
 	expression:
 				operation  { $$ = $1; }
 				| function_call  { $$ = $1; }
-				| INT  {  $$ = $1; }
+				| INT  { $$ = $1; }
 				| FLOAT  { $$ = $1; }
 				| STRING  { $$ = $1; }
 				| ID { $$ = $1; } ;
@@ -346,7 +358,10 @@
 				| ;
 
 	function_declaration:
-				LA FUNCION ID REGRESA UN type function_declaration_a DOT function_declaration_b func_block { printf("Function declaration: %d\n", line_num); addFunction($6, $3);  } ;
+				LA FUNCION ID { enterLocalScope($3); } REGRESA UN type function_declaration_a DOT function_declaration_b func_block { 	printf("Function declaration: %d\n", line_num); 
+																																		addFunction($7, $3); 
+																																		exitLocalScope();
+																																	} ;
 
 	function_declaration_a: 
 				Y TOMA func_param_dec

@@ -10,6 +10,7 @@ class ProcedureRecord
 {
 public:
 	ProcedureRecord(string type, string name, vector<VariableRecord> parameterDir);
+	ProcedureRecord(string type, string name, vector<VariableRecord> parameterDir, vector<VariableRecord> variableDir);
 	ProcedureRecord();
 
 	void setReturnType(string type);

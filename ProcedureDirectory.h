@@ -25,6 +25,6 @@ private:
 	vector<ProcedureRecord> procDir;
 
 	// temporal signature storage for functions
-	std::vector<VariableRecord> parameterDir;
+	std::vector<VariableRecord> parameterDir, variableDir;
 };
 #endif

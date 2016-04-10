@@ -8,6 +8,7 @@
 	ProcedureDirectory::ProcedureDirectory() {
 		ProcedureRecord main("INT", "main", parameterDir);
 		procDir.push_back(main);
+		scope = true;
 	}
 
 	void ProcedureDirectory::enterLocalScope() {
@@ -19,9 +20,10 @@
 	}
 
 	void ProcedureDirectory::addFunction(string type, string name) {
-		ProcedureRecord newRecord(type, name, parameterDir);
+		ProcedureRecord newRecord(type, name, parameterDir, variableDir);
 		procDir.push_back(newRecord);
 		parameterDir.clear();
+		variableDir.clear();
 		printf("%s function added\n", name.c_str());
 	}
 
@@ -31,7 +33,15 @@
 	}
 
 	void ProcedureDirectory::addVariable(string type, string name) {
-		procDir.back().addVariable(type, name);
+		if (scope)
+		{
+			procDir.front().addVariable(type, name);
+			printf("Adding %s %s to %s\n", type.c_str(), name.c_str(), procDir.front().getName().c_str());
+		} else {
+			VariableRecord newRecord(type, name);
+			variableDir.push_back(newRecord);
+			printf("Adding local %s %s\n",type.c_str(), name.c_str());
+		}
 	}
 
 	void ProcedureDirectory::listDirectory() {
