@@ -1,6 +1,13 @@
 %{
 	#include <cstdio>
 	#include <iostream>
+	#include <vector>
+	#include <string>
+	#include <stdlib.h>
+	#include <cstring>
+	#include "ProcedureRecord.h"
+	#include "ProcedureDirectory.h"
+	#include "SemanticCube.h"
 	using namespace std;
 
 	// stuff from flex that bison needs to know about:
@@ -11,6 +18,52 @@
 	extern "C" int line_num;
 	 
 	void yyerror(const char *s);
+
+	// procedure directory
+	ProcedureDirectory procDir;
+	// semantic cube
+	SemanticCube cube;
+
+	inline void addParameter(char* type, char* name) {
+		string sName(name), sType(type);
+		procDir.addParameter(sType, sName);
+	}
+
+	inline void addVariable(char* type, char* name) {
+		string sName(name), sType(type);
+		procDir.addVariable(sType, sName);
+	}
+
+	inline void addFunction(char* type, char* name) {
+		printf("adding Function\n");
+		string sName(name), sType(type);
+		procDir.addFunction(sType, sName);
+	}
+
+	inline void listDirectory() {
+		procDir.listDirectory();
+	}
+
+	char * intToChar(const int number) {
+
+		std::string s = std::to_string(number);
+		const char *pchar = s.c_str();  //use char const* as target type
+
+		char temp[51];
+	    strncpy(temp,pchar,51);
+
+		return temp;
+	}
+
+	// inline void test() {
+	// 	procDir.assignVariable("int", "x", "123");
+	// 	procDir.assignVariable("string", "name", "dag");
+
+	// 	procDir.listDirectory();
+
+	// }
+	
+
 %}
 
 %union {
@@ -95,15 +148,21 @@
 
 
 // terminal
-%token <ival> INT
-%token <fval> FLOAT
+%token <sval> INT
+%token <sval> FLOAT
 %token <sval> ID
 %token <sval> STRING
+
+%type<sval> expression
+%type<sval> operation
+%type<sval> operator_spa
+%type<sval> function_call function_call_a
+%type<sval> type
 
 %%
 
 	programa:
-				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n"); };
+				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n"); listDirectory(); } ;
 
 	programa_a:
 				COLON
@@ -132,7 +191,7 @@
 				vars low_block_a ;
 
 	low_block_a:
-				statute low_block_b;
+				statute low_block_b ;
 
 	low_block_b:
 				low_block_a
@@ -145,7 +204,7 @@
 
 
 	var_assignment:
-				LA VARIABLE ID ES EL type expression var_assignment_a; 
+				LA VARIABLE ID ES EL type expression var_assignment_a { addVariable($6, $3); } ; 
 
 	var_assignment_a:
 				COMA var_assignment ;
@@ -156,8 +215,8 @@
 
 
 	operation:
-				operation_spa 
-				| operation_norm;
+				operation_spa {  $$ = "operation";}
+				| operation_norm {$$ = "operation"; } ;
 
 	operation_norm:
 				t operation_norm_a;
@@ -179,16 +238,16 @@
 
 
 	operation_spa:
-				LA operator_spa DE operand concatenation_op operand;
+				LA operator_spa DE operand concatenation_op operand ;
 
 
 	operator_spa:
-				SUMA
-				| ADICION
-				| RESTA
-				| SUBSTRACCION
-				| MULTIPLICACION
-				| DIVISION ;
+				SUMA { $$ = "SUMA"; }
+				| ADICION { $$ = "ADICION"; }
+				| RESTA { $$ = "RESTA"; }
+				| SUBSTRACCION { $$ = "SUBSTRACCION"; }
+				| MULTIPLICACION { $$ = "MULTIPLICACION"; }
+				| DIVISION { $$ = "DIVISION"; } ; 
 
 	concatenation_op:
 				CON
@@ -223,15 +282,15 @@
 
 
 	condition:
-				block_condition
+				{printf("condition start on line %d\n", line_num)} block_condition { printf("condition finished, %d\n", line_num)}
 				| condition_suffix ;
 
 
 	block_condition:
-				block_condition_pre declaration SEMICOLON low_block block_condition_a
+				block_condition_pre declaration SEMICOLON low_block DOT block_condition_a
 
 	block_condition_a:
-				block_condition_else low_block
+				block_condition_else low_block DOT
 				| ;
 	block_condition_pre:
 				SI 
@@ -263,21 +322,21 @@
 				| DIVIDEDBY ;
 
 	expression:
-				operation
-				| function_call
-				| INT 
-				| FLOAT
-				| STRING 
-				| ID ;
+				operation  { $$ = $1; }
+				| function_call  { $$ = $1; }
+				| INT  {  $$ = $1; }
+				| FLOAT  { $$ = $1; }
+				| STRING  { $$ = $1; }
+				| ID { $$ = $1; } ;
 
 	statute:
-				expression DOT
-				| condition
-				| var_assignment DOT
-				| function_declaration 
-				| mutation DOT 
-				| while 
-				| for ;
+				expression DOT { printf("Statute exp finished: %d, '%s'\n", line_num, $1); }
+				| condition { printf("Statute finished: %d\n", line_num)}  
+				| var_assignment DOT { printf("Statute finished: %d\n", line_num)} 
+				| function_declaration { printf("Statute finished: %d\n", line_num)}  
+				| mutation DOT { printf("Statute finished: %d\n", line_num)}  
+				| while { printf("Statute finished: %d\n", line_num)}  
+				| for { printf("Statute finished: %d\n", line_num)} ;
 
 	func_block:
 				vars func_block_a REGRESA expression DOT ;
@@ -287,7 +346,7 @@
 				| ;
 
 	function_declaration:
-				LA FUNCION ID REGRESA UN type function_declaration_a DOT function_declaration_b func_block ;
+				LA FUNCION ID REGRESA UN type function_declaration_a DOT function_declaration_b func_block { printf("Function declaration: %d\n", line_num); addFunction($6, $3);  } ;
 
 	function_declaration_a: 
 				Y TOMA func_param_dec
@@ -301,7 +360,7 @@
 				LA VARIABLE func_param_dec_a ;
 
 	func_param_dec_a:
-				type ID func_param_dec_b ;
+				type ID func_param_dec_b { addParameter($1, $2); };
 
 	func_param_dec_b:
 				COMA func_param_dec_c
@@ -316,9 +375,9 @@
 
 
 	type:
-				TYPEINT
-				| TYPEFLOAT
-				| TYPESTRING ;
+				TYPEINT { $$ = "INT"; }
+				| TYPEFLOAT { $$ = "FLOAT"; }
+				| TYPESTRING { $$ = "STRING"; } ;  
 
 	flotante: 
 				TYPEFLOAT;
@@ -339,7 +398,7 @@
 
 
 	function_call:
-				LLAMA ID CON function_call_a ;
+				LLAMA ID CON function_call_a { $$ = "function"; };
 
 	function_call_a:
 				LA VARIABLE function_call_b 
@@ -390,8 +449,7 @@
 				| FALSO ;
 
 	dec_operand:
-				ID
-				| INT ;
+				expression ;
 
 	while:
 				while_a declaration COLON low_block while_end ;
@@ -401,7 +459,7 @@
 				| HASTA QUE ;
 
 	while_end:
-				DOT ;
+				DOT {printf("while end: %d\n", line_num)} ;
 
 
 	for:
@@ -417,7 +475,7 @@
 				| DEL INT AL INT ;
 
 	for_end:
-				DOT ;
+				DOT {printf("For end: %d\n", line_num)} ;
 
 
 %%

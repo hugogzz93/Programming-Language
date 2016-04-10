@@ -93,8 +93,8 @@
 
 [\n]                        { line_num++; }
 [ \t\n]						{ ; }
-[0-9]+\.[0-9]+				{ yylval.fval = atof(yytext); return FLOAT; }
-[0-9]+						{ yylval.ival = atoi(yytext); return INT; }
+[0-9]+\.[0-9]+				{ yylval.sval = strdup(yytext); return FLOAT; }
+[0-9]+						{ yylval.sval = strdup(yytext); return INT; }
 [a-zA-Z](_?([a-zA-Z]|[0-9]))*   { yylval.sval = strdup(yytext); return ID; }
 \"(\\.|[^\\"])*\"               { yylval.sval = strdup(yytext); return STRING; }
 .							{ ; }
