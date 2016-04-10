@@ -24,9 +24,20 @@
 	// semantic cube
 	SemanticCube cube;
 
-	inline void assignVariable(char* type, char* name, char* value) {
-		string sName(name), sType(type), sVal(value);
-		procDir.assignVariable(sType, sName, sVal);
+	inline void addParameter(char* type, char* name) {
+		string sName(name), sType(type);
+		procDir.addParameter(sType, sName);
+	}
+
+	inline void addVariable(char* type, char* name) {
+		string sName(name), sType(type);
+		procDir.addVariable(sType, sName);
+	}
+
+	inline void addFunction(char* type, char* name) {
+		printf("adding Function\n");
+		string sName(name), sType(type);
+		procDir.addFunction(sType, sName);
 	}
 
 	inline void listDirectory() {
@@ -145,7 +156,8 @@
 %type<sval> expression
 %type<sval> operation
 %type<sval> operator_spa
-%type<sval> function_call type
+%type<sval> function_call function_call_a
+%type<sval> type
 
 %%
 
@@ -192,7 +204,7 @@
 
 
 	var_assignment:
-				LA VARIABLE ID ES EL type expression var_assignment_a { assignVariable($6, $3, $7); } ; 
+				LA VARIABLE ID ES EL type expression var_assignment_a { addVariable($6, $3); } ; 
 
 	var_assignment_a:
 				COMA var_assignment ;
@@ -334,7 +346,7 @@
 				| ;
 
 	function_declaration:
-				LA FUNCION ID REGRESA UN type function_declaration_a DOT function_declaration_b func_block ;
+				LA FUNCION ID REGRESA UN type function_declaration_a DOT function_declaration_b func_block { printf("Function declaration: %d\n", line_num); addFunction($6, $3);  } ;
 
 	function_declaration_a: 
 				Y TOMA func_param_dec
@@ -348,7 +360,7 @@
 				LA VARIABLE func_param_dec_a ;
 
 	func_param_dec_a:
-				type ID func_param_dec_b ;
+				type ID func_param_dec_b { addParameter($1, $2); };
 
 	func_param_dec_b:
 				COMA func_param_dec_c
@@ -437,8 +449,7 @@
 				| FALSO ;
 
 	dec_operand:
-				ID
-				| INT ;
+				expression ;
 
 	while:
 				while_a declaration COLON low_block while_end ;

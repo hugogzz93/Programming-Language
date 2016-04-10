@@ -1,5 +1,5 @@
 all: flex semanticCube procedureDirectory
-	g++ -w -std=c++11 bison.tab.c lex.yy.c SemanticCube.o ProcedureRecord.o ProcedureDirectory.o -ll -o out
+	g++ -w -std=c++11 bison.tab.c lex.yy.c SemanticCube.o ProcedureRecord.o ProcedureDirectory.o VariableRecord.o -ll -o out
 	clear
 	./out
 
@@ -15,5 +15,8 @@ semanticCube:
 procedureDirectory: procedureRecord
 	g++ -w -std=c++11 -c ProcedureDirectory.cpp
 
-procedureRecord:
+procedureRecord: variableRecord
 	g++ -w -std=c++11 -c ProcedureRecord.cpp	
+
+variableRecord:
+	g++ -w -std=c++11 -c VariableRecord.cpp	

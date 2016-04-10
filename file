@@ -5,8 +5,22 @@ programa a4,
             la variable c es el entero la suma de a1 con b.
 
     La funcion add regresa un entero y toma la variable entera x y la variable entera b.
-    Adentro de la funcion, recuerda esto: la variable c es el entero 2.
-    Sumale b a x. Regresa la suma de x con c.
+        Adentro de la funcion, 
+            recuerda esto: 
+                la variable c es el entero 2.
+
+            Sumale b a x. 
+            Regresa la suma de x con c.
+
+    La funcion rest regresa un flotante y toma la variable flotante z y la variable flotante d.
+        Adentro de la funcion, 
+            recuerda esto:
+                la variable c es el string "hola".
+
+            Si c es diferente que "dedo";
+                sumale 5 a z.
+            .
+            Regresa c.
 
     Si a1 es diferente que 5; 
         la variable b es el entero la multiplicacion de 5 con 6.

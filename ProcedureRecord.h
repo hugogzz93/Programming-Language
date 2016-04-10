@@ -2,21 +2,27 @@
 #define GUARD_PROCEDURE_RECORD 
 
 #include <iostream>
-using namespace std;
+#include <vector>
+#include "VariableRecord.h"
 
+using namespace std;
 class ProcedureRecord
 {
 public:
-	ProcedureRecord(string type, string name, string value);
+	ProcedureRecord(string type, string name, vector<VariableRecord> parameterDir);
 	ProcedureRecord();
-	
-	string getType();
+
+	void setReturnType(string type);
+	void addParameter(string type, string name);
+	void addVariable(string type, string name);
+	void showSignature();
+
 	string getName();
-	string getValue();
-	
-	void setName(string name);
+	string getType();
 
 private:
-	string type, name, value;
+	string name, type;
+	vector<VariableRecord> parameterDir;
+	vector<VariableRecord> variableDir;
 };
 #endif
