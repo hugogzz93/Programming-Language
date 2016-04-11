@@ -20,6 +20,9 @@ public:
 	void addVariable(string type, string name);
 	void listDirectory(bool verbose = false);
 
+	VariableRecord getVariableByName(string name, string scope);
+	ProcedureRecord getScope(string scope);
+
 private:
 	bool scope; //true = global
 	vector<ProcedureRecord> procDir;

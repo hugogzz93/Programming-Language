@@ -1,15 +1,11 @@
 #include <stack>
 #include "QuadrupleGenerator.h"
-#include "VariableRecord.h"
-
+#include "ProcedureDirectory.h"
 using namespace std;
 
 // QuadrupleGenerator::QuadrupleGenerator(stack<string> operationStack, stack<VariableRecord> operandStack):
-QuadrupleGenerator::QuadrupleGenerator() {
-	intCounter = 0;
-	floatCounter = 0;
-	stringCounter = 0;
-}
+QuadrupleGenerator::QuadrupleGenerator(ProcedureDirectory* procDir): procDir(procDir) {}
+QuadrupleGenerator::QuadrupleGenerator(): procDir(NULL) {}
 
 void QuadrupleGenerator::setOperationStack(stack<string> stack) {
 	operationStack = stack;

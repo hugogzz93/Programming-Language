@@ -1,5 +1,6 @@
 #include "iostream"
 #include "VariableRecord.h"
+#include <cstdio>
 
 using namespace std;
 
@@ -15,6 +16,10 @@ string VariableRecord::getName() {
 
 string VariableRecord::getType() {
 	return type;
+}
+
+string VariableRecord::expose() {
+	return getScope() + "(" + to_string(getVAddress()) + ")";
 }
 
 int VariableRecord::getVAddress() {

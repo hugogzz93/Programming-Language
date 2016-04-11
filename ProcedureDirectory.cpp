@@ -1,6 +1,7 @@
 #include "ProcedureDirectory.h"
 #include "ProcedureRecord.h"
 #include "VariableRecord.h"
+#include <stdexcept>
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
@@ -76,5 +77,29 @@
 			vAddress = vAddressMap[name][varRecord->getType()]++;
 			varRecord->setVAddress(vAddress);
 			varRecord->setScope(name);	
+		}
+	}
+
+	ProcedureRecord ProcedureDirectory::getScope(string scope) {
+		for (std::vector<ProcedureRecord>::iterator record = procDir.begin(); record != procDir.end(); ++record)
+		{
+			if (record->getName() == scope)
+			{
+				return *record;
+			}
+
+			throw invalid_argument("Record not found");
+
+			
+		}
+	}
+
+	VariableRecord ProcedureDirectory::getVariableByName(string name, string scope) {
+		try {
+			ProcedureRecord function = getScope(scope);
+			VariableRecord varRecord = function.getVariableByName(name);
+			return varRecord;
+		} catch(const invalid_argument& e) {
+			cout << e.what() << endl;
 		}
 	}

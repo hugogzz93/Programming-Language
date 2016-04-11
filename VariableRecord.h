@@ -24,6 +24,8 @@ public:
 	void setVAddress(int vAddress);
 	void setScope(string scope);
 
+	string expose();
+
 private:
 	string name, type, scope;
 	int vAddress;

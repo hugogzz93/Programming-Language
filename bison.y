@@ -23,7 +23,7 @@
 
 	ProcedureDirectory procDir;
 	SemanticCube cube;
-	QuadrupleGenerator quadGenerator;
+	QuadrupleGenerator quadGenerator(&procDir);
 
 
 	inline void enterLocalScope(char * cName) {
@@ -66,16 +66,6 @@
 
 		return temp;
 	}
-
-	// inline void test() {
-	// 	procDir.assignVariable("int", "x", "123");
-	// 	procDir.assignVariable("string", "name", "dag");
-
-	// 	procDir.listDirectory();
-
-	// }
-	
-
 %}
 
 %union {

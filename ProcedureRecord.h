@@ -19,6 +19,8 @@ public:
 	void addVariable(string type, string name, int vAddress, string scope);
 	void showSignature(bool verbose = false);
 
+	VariableRecord getVariableByName(string name);
+
 	string getName();
 	string getType();
 

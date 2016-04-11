@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "iostream"
 #include "ProcedureRecord.h"
 #include "VariableRecord.h"
@@ -74,6 +75,29 @@ void ProcedureRecord::showSignature(bool verbose) {
 			printf("\t%s %s\n", varRecord->getType().c_str(), varRecord->getName().c_str());
 		}
 	}
+}
+
+VariableRecord ProcedureRecord::getVariableByName(string name) {
+
+	for (std::vector<VariableRecord>::iterator record = parameterDir.begin(); record != parameterDir.end(); ++record)
+	{
+		if (record->getName() == name)
+		{
+			return *record;
+		}
+	}
+
+	for (std::vector<VariableRecord>::iterator record = variableDir.begin(); record != variableDir.end(); ++record)
+	{
+		if (record->getName() == name)
+		{
+			return *record;
+		}
+	}
+
+	throw invalid_argument("No variable with that name found.");
+
+
 }
 
 string ProcedureRecord::getName() {

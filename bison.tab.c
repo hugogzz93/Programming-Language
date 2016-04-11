@@ -240,7 +240,7 @@
 
 	ProcedureDirectory procDir;
 	SemanticCube cube;
-	QuadrupleGenerator quadGenerator;
+	QuadrupleGenerator quadGenerator(&procDir);
 
 
 	inline void enterLocalScope(char * cName) {
