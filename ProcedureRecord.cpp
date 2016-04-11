@@ -32,7 +32,7 @@ void ProcedureRecord::addParameter(string type, string name) {
 	}
 }
 
-void ProcedureRecord::addVariable(string type, string name) {
+void ProcedureRecord::addVariable(string type, string name, int vAddress, string scope) {
 	bool repeatedName = false;
 
 	for (std::vector<VariableRecord>::iterator varRecord = variableDir.begin(); varRecord != variableDir.end(); ++varRecord)
@@ -43,24 +43,36 @@ void ProcedureRecord::addVariable(string type, string name) {
 		}
 	}
 
+
+
 	if (!repeatedName) {
-		VariableRecord newRecord(type, name);
+		VariableRecord newRecord(type, name, vAddress, scope);
 		variableDir.push_back(newRecord);
 	}
 
 }
 
-void ProcedureRecord::showSignature() {
+void ProcedureRecord::showSignature(bool verbose) {
 	printf("%s %s (", type.c_str(), name.c_str());
 	for (std::vector<VariableRecord>::iterator i = parameterDir.begin(); i != parameterDir.end(); ++i)
 	{
-		printf("%s %s, ", i->getType().c_str(), i->getName().c_str());
+		if (verbose)
+		{
+			printf("%s %s (%d), ", i->getType().c_str(), i->getName().c_str(), i->getVAddress());
+		} else {
+			printf("%s %s, ", i->getType().c_str(), i->getName().c_str());
+		}
 	}
 	printf(")\n");
 
 	for (std::vector<VariableRecord>::iterator varRecord = variableDir.begin(); varRecord != variableDir.end(); ++varRecord)
 	{
-		printf("\t%s %s\n", varRecord->getType().c_str(), varRecord->getName().c_str());
+		if (verbose)
+		{
+			printf("\t%s %s (%d)\n", varRecord->getType().c_str(), varRecord->getName().c_str(), varRecord->getVAddress());
+		} else {
+			printf("\t%s %s\n", varRecord->getType().c_str(), varRecord->getName().c_str());
+		}
 	}
 }
 

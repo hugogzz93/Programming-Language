@@ -16,7 +16,8 @@ public:
 	void setReturnType(string type);
 	void addParameter(string type, string name);
 	void addVariable(string type, string name);
-	void showSignature();
+	void addVariable(string type, string name, int vAddress, string scope);
+	void showSignature(bool verbose = false);
 
 	string getName();
 	string getType();

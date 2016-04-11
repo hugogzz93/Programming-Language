@@ -269,8 +269,8 @@
 		procDir.addFunction(sType, sName);
 	}
 
-	inline void listDirectory() {
-		procDir.listDirectory();
+	inline void listDirectory(bool verbose = false) {
+		procDir.listDirectory(verbose);
 	}
 
 	char * intToChar(const int number) {
@@ -1774,7 +1774,7 @@ yyreduce:
     {
         case 2:
 #line 177 "bison.y"
-    { printf("Accepted Syntax!\n"); listDirectory(); ;}
+    { printf("Accepted Syntax!\n"); listDirectory(true); ;}
     break;
 
   case 18:

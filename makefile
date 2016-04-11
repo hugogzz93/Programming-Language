@@ -3,6 +3,12 @@ all: flex semanticCube procedureDirectory quadrupleGenerator
 	clear
 	./out
 
+debug: flex semanticCube procedureDirectory quadrupleGenerator
+	g++ -g -std=c++11 bison.tab.c lex.yy.c SemanticCube.o ProcedureRecord.o ProcedureDirectory.o VariableRecord.o QuadrupleGenerator.o Quadruple.o -ll -o out
+	clear
+	gdb out
+
+
 flex: bison
 	flex flex.l
 	

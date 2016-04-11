@@ -52,8 +52,8 @@
 		procDir.addFunction(sType, sName);
 	}
 
-	inline void listDirectory() {
-		procDir.listDirectory();
+	inline void listDirectory(bool verbose = false) {
+		procDir.listDirectory(verbose);
 	}
 
 	char * intToChar(const int number) {
@@ -174,7 +174,7 @@
 %%
 
 	programa:
-				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n"); listDirectory(); } ;
+				PROGRAMA ID programa_a context_block { printf("Accepted Syntax!\n"); listDirectory(true); } ;
 
 	programa_a:
 				COLON

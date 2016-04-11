@@ -9,7 +9,7 @@
 using namespace std;
 class ProcedureDirectory
 {
-
+	typedef unordered_map<string, int> stringInt;
 public:
 	ProcedureDirectory();
 
@@ -18,7 +18,7 @@ public:
 	void addFunction(string type, string name);
 	void addParameter(string type, string name);
 	void addVariable(string type, string name);
-	void listDirectory();
+	void listDirectory(bool verbose = false);
 
 private:
 	bool scope; //true = global
@@ -26,5 +26,11 @@ private:
 
 	// temporal signature storage for functions
 	std::vector<VariableRecord> parameterDir, variableDir;
+
+	// scope -> type -> ammount
+	// ( main[int] = 12)
+	unordered_map<string, stringInt> vAddressMap;
+
+	void assignVirtualAddresses(vector<VariableRecord> &vec, string name);
 };
 #endif
