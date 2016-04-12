@@ -5,6 +5,7 @@
 #include <vector>
 #include "ProcedureRecord.h"
 #include "VariableRecord.h"
+#include "Quadruple.h"
 
 using namespace std;
 class ProcedureDirectory
@@ -20,8 +21,15 @@ public:
 	void addVariable(string type, string name);
 	void listDirectory(bool verbose = false);
 
-	VariableRecord getVariableByName(string name, string scope);
-	ProcedureRecord getScope(string scope);
+	void addQuadruple(const Quadruple& quad, string scope);
+	void addVariableRecord(VariableRecord record);
+
+	VariableRecord& getVariableByName(string name, string scope); //throws invalid_argument exception
+	VariableRecord& getVariableForFutureFunc(string name); //throws invalid_argument exception
+	VariableRecord& getParameterForFutureFunc(string name); //throws invalid_argument exception
+	ProcedureRecord& getFunctionByName(string name); //throws invalid_argument exception
+	vector<VariableRecord>& getVariableDir();
+	vector<VariableRecord>& getParameterDir();
 
 private:
 	bool scope; //true = global
@@ -34,6 +42,9 @@ private:
 	// ( main[int] = 12)
 	unordered_map<string, stringInt> vAddressMap;
 
+	unordered_map<string, vector<Quadruple> > quadrupleMap;
+
 	void assignVirtualAddresses(vector<VariableRecord> &vec, string name);
+	void assignVirtualAddress(VariableRecord& record);
 };
 #endif

@@ -23,17 +23,40 @@
 
 	ProcedureDirectory procDir;
 	SemanticCube cube;
-	QuadrupleGenerator quadGenerator(&procDir);
+	QuadrupleGenerator quadGenerator(&procDir, cube);
 
+	void pushOperation(QuadrupleGenerator& quadGenerator, char* op) {
+		string sOp(op);
+		quadGenerator.pushOperation(sOp);
+	}
+
+	void pushLeftOperand(QuadrupleGenerator& quadGenerator, char* lOp) {
+		string lOperand(lOp);
+		quadGenerator.pushLeftOperand(lOperand);
+	}
+
+	void pushRightOperand(QuadrupleGenerator& quadGenerator, char* rOp) {
+		string rOperand(rOp);
+		quadGenerator.pushRightOperand(rOperand);
+	}
+
+	inline void setVarFlag(int flag) {
+		quadGenerator.setVarFlag(flag);
+	}
 
 	inline void enterLocalScope(char * cName) {
-		procDir.enterLocalScope();
-		printf("Entering Scope of: %s\n", cName);
+		
+		{   
+			string scope(cName);
+			procDir.enterLocalScope();
+			quadGenerator.setCurrentScope(scope);
+			printf("Entering Scope of: %s\n", quadGenerator.getCurrentScope().c_str());
+		}
 	}
 
 	inline void exitLocalScope() {
 		procDir.enterGlobalScope();
-
+		quadGenerator.setCurrentScope("main");
 	}
 
 	inline void addParameter(char* type, char* name) {
@@ -160,6 +183,7 @@
 %type<sval> operator_spa
 %type<sval> function_call function_call_a
 %type<sval> type
+%type<sval> operand
 
 %%
 
@@ -206,7 +230,7 @@
 
 
 	var_assignment:
-				LA VARIABLE ID ES EL type expression var_assignment_a { addVariable($6, $3); } ; 
+				LA VARIABLE ID ES EL type { printf("Registering variable %s\n", $3); addVariable($6, $3); } expression var_assignment_a ; 
 
 	var_assignment_a:
 				COMA var_assignment ;
@@ -217,8 +241,8 @@
 
 
 	operation:
-				operation_spa {$$ = "operation";}
-				| operation_norm {$$ = "operation";} ;
+				{ printf("starting operation\n");} operation_spa
+				| operation_norm  ;
 
 	operation_norm:
 				t operation_norm_a;
@@ -240,16 +264,16 @@
 
 
 	operation_spa:
-				LA operator_spa DE operand concatenation_op operand ;
+				LA operator_spa { pushOperation(quadGenerator, $2); } DE operand { printf("\tpushing LeftOp: %s\n", $5); pushLeftOperand(quadGenerator, $5); } concatenation_op operand { printf("\tright operand added on line: %d\n", line_num); pushRightOperand(quadGenerator, $8); };
 
 
 	operator_spa:
-				SUMA { $$ = "SUMA"; }
-				| ADICION { $$ = "ADICION"; }
-				| RESTA { $$ = "RESTA"; }
-				| SUBSTRACCION { $$ = "SUBSTRACCION"; }
-				| MULTIPLICACION { $$ = "MULTIPLICACION"; }
-				| DIVISION { $$ = "DIVISION"; } ; 
+				SUMA 			 { $$ = "+";  }
+				| ADICION 		 { $$ = "+";  }
+				| RESTA 		 { $$ = "-";  }
+				| SUBSTRACCION 	 { $$ = "-";  }
+				| MULTIPLICACION { $$ = "*";  }
+				| DIVISION 		 { $$ = "/";  } ; 
 
 	concatenation_op:
 				CON
@@ -280,7 +304,7 @@
 				| INCREMENTALE ;
 
 	operand:
-				expression;
+				expression { $$ = $1; };
 
 
 	condition:
@@ -324,31 +348,31 @@
 				| DIVIDEDBY ;
 
 	expression:
-				operation  { $$ = $1; }
-				| function_call  { $$ = $1; }
-				| INT  { $$ = $1; }
-				| FLOAT  { $$ = $1; }
-				| STRING  { $$ = $1; }
-				| ID { $$ = $1; } ;
+				operation  			{ $$ = "operation"; setVarFlag(QuadrupleGenerator::fOP);   	}
+				| function_call  	{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fFUNC); 	}
+				| INT  				{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fINT);  	}    //12
+				| FLOAT  			{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fFLOAT);	}  	//12.00
+				| STRING  			{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fSTRING);} 	//"12"
+				| ID 				{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fID);   	} ;  //var
 
 	statute:
-				expression DOT { printf("Statute exp finished: %d, '%s'\n", line_num, $1); }
-				| condition { printf("Statute finished: %d\n", line_num)}  
-				| var_assignment DOT { printf("Statute finished: %d\n", line_num)} 
-				| function_declaration { printf("Statute finished: %d\n", line_num)}  
-				| mutation DOT { printf("Statute finished: %d\n", line_num)}  
-				| while { printf("Statute finished: %d\n", line_num)}  
-				| for { printf("Statute finished: %d\n", line_num)} ;
+				expression DOT 		 	{ printf("Statute exp finished: %d, '%s'\n", line_num, $1); }
+				| condition 		 	{ }  
+				| var_assignment DOT    { } 
+				| function_declaration  { }  
+				| mutation DOT 			{ }  
+				| while 				{ }  
+				| for 					{ } ;
 
 	func_block:
-				vars func_block_a REGRESA expression DOT ;
+				vars {printf("function variables finished\n");} func_block_a REGRESA expression DOT ;
 
 	func_block_a:
 				statute func_block_a
 				| ;
 
 	function_declaration:
-				LA FUNCION ID { enterLocalScope($3); } REGRESA UN type function_declaration_a DOT function_declaration_b func_block { 	printf("Function declaration: %d\n", line_num); 
+				LA FUNCION ID { enterLocalScope($3); } REGRESA UN type function_declaration_a DOT function_declaration_b { printf("function header finished\n");} func_block { 	printf("Function declaration: %d\n", line_num); 
 																																		addFunction($7, $3); 
 																																		exitLocalScope();
 																																	} ;
@@ -365,7 +389,7 @@
 				LA VARIABLE func_param_dec_a ;
 
 	func_param_dec_a:
-				type ID func_param_dec_b { addParameter($1, $2); };
+				type ID func_param_dec_b { printf("adding parameter %s %s\n", $2, $1); addParameter($1, $2); };
 
 	func_param_dec_b:
 				COMA func_param_dec_c

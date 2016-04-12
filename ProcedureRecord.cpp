@@ -2,6 +2,7 @@
 #include "iostream"
 #include "ProcedureRecord.h"
 #include "VariableRecord.h"
+#include "Quadruple.h"
 
 using namespace std;
 
@@ -53,6 +54,10 @@ void ProcedureRecord::addVariable(string type, string name, int vAddress, string
 
 }
 
+void ProcedureRecord::addVariable(VariableRecord record) {
+	variableDir.push_back(record);
+}
+
 void ProcedureRecord::showSignature(bool verbose) {
 	printf("%s %s (", type.c_str(), name.c_str());
 	for (std::vector<VariableRecord>::iterator i = parameterDir.begin(); i != parameterDir.end(); ++i)
@@ -95,7 +100,7 @@ VariableRecord ProcedureRecord::getVariableByName(string name) {
 		}
 	}
 
-	throw invalid_argument("No variable with that name found.");
+	throw invalid_argument("No variable with the name " + name + " found for function " + this->name + ".");
 
 
 }
@@ -107,53 +112,3 @@ string ProcedureRecord::getName() {
 string ProcedureRecord::getType() {
 	return type;
 }
-
-
-
-
-// void ProcedureRecord::listDirectory() {
-// 		VariableRecord record;
-// 		string type, name, value;
-// 		string::size_type typeW = 4, nameW = 4, valueW = 4;
-
-// 		for (int i = 0; i < variableDir.size(); ++i)
-// 		{	
-// 			record = variableDir[i];
-
-// 			type = record.getType();
-// 			name = record.getName();
-// 			value = record.getValue();
-
-// 			typeW = max(typeW, type.length());
-// 			nameW = max(nameW, name.length());
-// 			valueW = max(valueW, value.length());
-
-// 		}
-
-// 		string typePad(typeW - 2, ' ');
-// 		string namePad(nameW - 2, ' ');
-
-// 		string header = "\n\ntype" + typePad + "name" + namePad + "value";
-// 		string headerPad(header.size(), '-');
-// 		cout << header << endl;
-// 		cout << headerPad << endl;
-
-
-// 		for (int i = 0; i < variableDir.size(); ++i)
-// 		{
-// 			record = variableDir[i];
-
-// 			type = record.getType();
-// 			name = record.getName();
-// 			value = record.getValue();
-
-// 			string typePad(typeW - type.size() + 2, ' ');
-// 			string namePad(nameW - name.size() + 2, ' ');
-
-// 			cout << type << typePad << name << namePad << value << endl;
-// 		}
-	
-// 		string endPad(header.size(), '-');
-// 		cout << endPad << endl;
-
-// }

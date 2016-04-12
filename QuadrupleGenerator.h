@@ -1,27 +1,47 @@
 #ifndef GUARD_QUADRUPLE_GENERATOR
 #define GUARD_QUADRUPLE_GENERATOR 
 #include <stack>
+#include <unordered_map>
 #include "ProcedureDirectory.h"
+#include "SemanticCube.h"
+#include "Quadruple.h"
 
 using namespace std;
 class QuadrupleGenerator
 {
 public:
 	// QuadrupleGenerator(stack<string>* operationStack, stack<string>* operandStack);
-	QuadrupleGenerator(ProcedureDirectory* procDir);
+	QuadrupleGenerator(ProcedureDirectory* procDir, const SemanticCube& cube);
 	QuadrupleGenerator();
 
 	void setOperationStack(stack<string> stack);
 	void setOperandStack(stack<VariableRecord> stack);
+	void setCurrentScope(string scope);
+	void setVarFlag(int flag);
 
 	void pushOperation(string operation);
-	void pushLeftOperand(VariableRecord operand);
-	void pushRightOperand(VariableRecord operand);
+	void pushLeftOperand(string operand);
+	void pushRightOperand(string operand);
 
+	int getVarFlag();
+	string getCurrentScope();
+
+	const enum {
+		fINT, fFLOAT, fSTRING, fID, fOP, fFUNC
+	};
 
 private:
+	string currentScope;
 	stack<string> operationStack;
 	stack<VariableRecord> operandStack;
 	ProcedureDirectory* procDir;
+	SemanticCube semanticCube;
+	unordered_map<string, Quadruple> instructions;
+
+	//signals class what type of variable it will receive next
+	int varFlag;
+
+	void generateOperationQuadruple(string op, VariableRecord lOp, VariableRecord rOp);
+
 };
 #endif

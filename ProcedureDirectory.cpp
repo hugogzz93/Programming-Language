@@ -1,6 +1,7 @@
 #include "ProcedureDirectory.h"
 #include "ProcedureRecord.h"
 #include "VariableRecord.h"
+#include "Quadruple.h"
 #include <stdexcept>
 #include <algorithm>
 #include <iomanip>
@@ -47,16 +48,31 @@
 		{
 			int vAddress = vAddressMap["main"][type]++;
 			procDir.front().addVariable(type, name, vAddress, "main");
-			// printf("Adding %s %s to %s\n", type.c_str(), name.c_str(), procDir.front().getName().c_str());
+			printf("Adding %s %s to %s as %d\n", type.c_str(), name.c_str(), procDir.front().getName().c_str(), vAddress);
 		} else {
 			VariableRecord newRecord(type, name);
 			variableDir.push_back(newRecord);
-			// printf("Adding local %s %s\n",type.c_str(), name.c_str());
+			printf("added %s %s as %s\n", type.c_str(), name.c_str(), newRecord.expose().c_str() );
+		}
+	}
+
+	void ProcedureDirectory::addVariableRecord(VariableRecord record) {
+		assignVirtualAddress(record);
+		
+		if (scope) {
+			ProcedureRecord functionRecord = getFunctionByName(record.getScope());
+			functionRecord.addVariable(record);
+			printf("@@@@ Assigned %s %s as %s to %s\n", record.getType().c_str(), record.getName().c_str(), record.expose().c_str(), functionRecord.getName().c_str());
+			
+		} else {
+			printf("@@@@ Assigned %s %s as %s to %s\n", record.getType().c_str(), record.getName().c_str(), record.expose().c_str(), record.getScope().c_str());
+			variableDir.push_back(record);
 		}
 	}
 
 	void ProcedureDirectory::listDirectory(bool verbose) {
 		ProcedureRecord record;
+		vector<Quadruple> functionQuadruples;
 		
 		printf("\nFunction Directory\n");
 		printf("----------------------------------------\n");
@@ -65,8 +81,16 @@
 		{
 			// printf("%s\n", i->getName().c_str());
 			functionRecord->showSignature(verbose);
+			cout << "Instructions: " << endl;
+			functionQuadruples = quadrupleMap[functionRecord->getName()];
+			for (std::vector<Quadruple>::iterator quadruple = functionQuadruples.begin(); quadruple != functionQuadruples.end(); ++quadruple)
+			{
+				cout << *quadruple << endl;
+			}
 			cout << endl;
 		}
+
+
 	}
 
 	void ProcedureDirectory::assignVirtualAddresses(vector<VariableRecord> &vec, string name) {
@@ -80,26 +104,77 @@
 		}
 	}
 
-	ProcedureRecord ProcedureDirectory::getScope(string scope) {
-		for (std::vector<ProcedureRecord>::iterator record = procDir.begin(); record != procDir.end(); ++record)
+	void ProcedureDirectory::assignVirtualAddress(VariableRecord& record) {
+		int vAddress = vAddressMap[record.getScope()][record.getType()]++;
+		record.setVAddress(vAddress);
+
+	}
+
+	VariableRecord& ProcedureDirectory::getVariableByName(string name, string scope) {
+			ProcedureRecord function = getFunctionByName(scope);
+			VariableRecord varRecord = function.getVariableByName(name);
+			return varRecord;
+	}
+
+	void ProcedureDirectory::addQuadruple(const Quadruple& quad, string scope) {
+		quadrupleMap[scope].push_back(quad);
+	}
+
+	VariableRecord& ProcedureDirectory::getVariableForFutureFunc(string name) {
+
+		if (scope)
 		{
-			if (record->getName() == scope)
+			VariableRecord record =  procDir.front().getVariableByName(name);
+			return record;
+
+		}
+		for (std::vector<VariableRecord>::iterator record = variableDir.begin(); record != variableDir.end(); ++record)
+		{	
+			if (record->getName() == name)
 			{
 				return *record;
 			}
-
-			throw invalid_argument("Record not found");
-
-			
 		}
+		for (std::vector<VariableRecord>::iterator record = parameterDir.begin(); record != parameterDir.end(); ++record)
+		{	
+			if (record->getName() == name)
+			{
+				return *record;
+			}
+		}
+
+		throw invalid_argument("Variable " + name + " not found ProcedureDirectory::getVariableForFutureFunc - ");
 	}
 
-	VariableRecord ProcedureDirectory::getVariableByName(string name, string scope) {
-		try {
-			ProcedureRecord function = getScope(scope);
-			VariableRecord varRecord = function.getVariableByName(name);
-			return varRecord;
-		} catch(const invalid_argument& e) {
-			cout << e.what() << endl;
+	VariableRecord& ProcedureDirectory::getParameterForFutureFunc(string name) {
+		for (std::vector<VariableRecord>::iterator record = parameterDir.begin(); record != parameterDir.end(); ++record)
+		{
+			if (record->getName() == name)
+			{
+				return *record;
+			}
 		}
+
+		throw invalid_argument("Variable" + name + " not found");
+
+	}
+
+	ProcedureRecord& ProcedureDirectory::getFunctionByName(string name) {
+		for (std::vector<ProcedureRecord>::iterator function = procDir.begin(); function != procDir.end(); ++function)
+		{
+			if (function->getName() == name)
+			{
+				return *function;
+			}
+		}
+
+		throw invalid_argument("Scope not " + name + " found");
+	}
+
+	vector<VariableRecord>& ProcedureDirectory::getVariableDir() {
+		return variableDir;
+	}
+
+	vector<VariableRecord>& ProcedureDirectory::getParameterDir() {
+		return parameterDir;
 	}

@@ -14,9 +14,11 @@ public:
 	ProcedureRecord();
 
 	void setReturnType(string type);
+
 	void addParameter(string type, string name);
 	void addVariable(string type, string name);
 	void addVariable(string type, string name, int vAddress, string scope);
+	void addVariable(VariableRecord record);
 	void showSignature(bool verbose = false);
 
 	VariableRecord getVariableByName(string name);

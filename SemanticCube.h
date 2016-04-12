@@ -15,22 +15,23 @@ class SemanticCube
 
 public:
 	dimOne getMatrix();
+  std::string getResult(std::string op, std::string lOp, std::string rOp);
 
 private:
 
   //int
   dimThree intInt = {
-  	{"+", "int"},
-  	{"-", "int"},
-  	{"/", "int"},
-  	{"*", "int"}
+  	{"+", "INT"},
+  	{"-", "INT"},
+  	{"/", "INT"},
+  	{"*", "INT"}
   };
 
   dimThree intDouble = {
-  	{"+", "double"},
-  	{"-", "double"},
-  	{"/", "double"},
-  	{"*", "double"}
+  	{"+", "FLOAT"},
+  	{"-", "FLOAT"},
+  	{"/", "FLOAT"},
+  	{"*", "FLOAT"}
   };
 
   dimThree intBool = {
@@ -41,26 +42,26 @@ private:
   };
 
   dimThree intString = {
-  	{"+", "string"},
-  	{"-", "string"},
-  	{"/", "string"},
-  	{"*", "string"}
+  	{"+", "STRING"},
+  	{"-", "STRING"},
+  	{"/", "STRING"},
+  	{"*", "STRING"}
   };
 
   //double
 
   dimThree doubleInt = {
-  	{"+", "double"},
-  	{"-", "double"},
-  	{"/", "double"},
-  	{"*", "double"}
+  	{"+", "FLOAT"},
+  	{"-", "FLOAT"},
+  	{"/", "FLOAT"},
+  	{"*", "FLOAT"}
   };
 
   dimThree doubleDouble = {
-  	{"+", "double"},
-  	{"-", "double"},
-  	{"/", "double"},
-  	{"*", "double"}
+  	{"+", "FLOAT"},
+  	{"-", "FLOAT"},
+  	{"/", "FLOAT"},
+  	{"*", "FLOAT"}
   };
 
   dimThree doubleBool = {
@@ -71,25 +72,25 @@ private:
   };
 
   dimThree doubleString = {
-  	{"+", "string"},
-  	{"-", "string"},
-  	{"/", "string"},
-  	{"*", "string"}
+  	{"+", "STRING"},
+  	{"-", "STRING"},
+  	{"/", "STRING"},
+  	{"*", "STRING"}
   };
 
   //string
   dimThree stringInt = {
-  	{"+", "string"},
-  	{"-", "string"},
-  	{"/", "string"},
-  	{"*", "string"}
+  	{"+", "STRING"},
+  	{"-", "STRING"},
+  	{"/", "STRING"},
+  	{"*", "STRING"}
   };
 
   dimThree stringDouble = {
-  	{"+", "string"},
-  	{"-", "string"},
-  	{"/", "string"},
-  	{"*", "string"}
+  	{"+", "STRING"},
+  	{"-", "STRING"},
+  	{"/", "STRING"},
+  	{"*", "STRING"}
   };
 
   dimThree stringBool = {
@@ -100,10 +101,10 @@ private:
   };
 
   dimThree stringString = {
-  	{"+", "string"},
-  	{"-", "string"},
-  	{"/", "string"},
-  	{"*", "string"}
+  	{"+", "STRING"},
+  	{"-", "STRING"},
+  	{"/", "STRING"},
+  	{"*", "STRING"}
   };
 
   //bool
@@ -123,10 +124,10 @@ private:
   };
 
   dimThree boolBool = {
-  	{"+", "bool"},
-  	{"-", "bool"},
-  	{"/", "bool"},
-  	{"*", "bool"}	
+  	{"+", "BOOL"},
+  	{"-", "BOOL"},
+  	{"/", "BOOL"},
+  	{"*", "BOOL"}	
   };
 
   dimThree boolString = {
@@ -139,39 +140,39 @@ private:
 
 
   dimTwo intDim = {
-  	{"int", intInt},
-  	{"double", intDouble},
-  	{"bool", intBool},
-  	{"string", intString}
+  	{"INT", intInt},
+  	{"FLOAT", intDouble},
+  	{"BOOL", intBool},
+  	{"STRING", intString}
   };
 
   dimTwo doubleDim = {
-  	{"int", doubleInt},
-  	{"double", doubleDouble},
-  	{"bool", doubleBool},
-  	{"string", doubleString}
+  	{"INT", doubleInt},
+  	{"FLOAT", doubleDouble},
+  	{"BOOL", doubleBool},
+  	{"STRING", doubleString}
   };
 
   dimTwo boolDim = {
-  	{"int", boolInt},
-  	{"double", boolDouble},
-  	{"bool", boolBool},
-  	{"string", boolString}
+  	{"INT", boolInt},
+  	{"FLOAT", boolDouble},
+  	{"BOOL", boolBool},
+  	{"STRING", boolString}
   };
 
   dimTwo stringDim = {
-  	{"int", stringInt},
-  	{"double", stringDouble},
-  	{"bool", stringBool},
-  	{"string", stringString}
+  	{"INT", stringInt},
+  	{"FLOAT", stringDouble},
+  	{"BOOL", stringBool},
+  	{"STRING", stringString}
   };
 
 
    dimOne matrix = {
-  	{"int", intDim},
-  	{"double", doubleDim},
-  	{"bool", boolDim},
-  	{"string", stringDim}
+  	{"INT", intDim},
+  	{"FLOAT", doubleDim},
+  	{"BOOL", boolDim},
+  	{"STRING", stringDim}
   };
 };
 #endif

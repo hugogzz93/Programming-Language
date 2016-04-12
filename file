@@ -19,8 +19,9 @@ programa a4,
 
             Si c es diferente que "dedo";
                 sumale 5 a z.
+                
             .
-            Regresa c.
+            Regresa la suma de 5 con z.
 
     Si a1 es diferente que 5; 
         la variable b es el entero la multiplicacion de 5 con 6.
