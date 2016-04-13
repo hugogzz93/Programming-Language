@@ -18,11 +18,13 @@ public:
 	void enterGlobalScope();
 	void addFunction(string type, string name);
 	void addParameter(string type, string name);
-	void addVariable(string type, string name);
+	void addVariable(string type, string name, string scope);
 	void listDirectory(bool verbose = false);
+	void updateVariableRecord(VariableRecord& record);
+
 
 	void addQuadruple(const Quadruple& quad, string scope);
-	void addVariableRecord(VariableRecord record);
+	VariableRecord addVariableRecord(VariableRecord record);
 
 	VariableRecord& getVariableByName(string name, string scope); //throws invalid_argument exception
 	VariableRecord& getVariableForFutureFunc(string name); //throws invalid_argument exception
@@ -30,6 +32,7 @@ public:
 	ProcedureRecord& getFunctionByName(string name); //throws invalid_argument exception
 	vector<VariableRecord>& getVariableDir();
 	vector<VariableRecord>& getParameterDir();
+	
 
 private:
 	bool scope; //true = global

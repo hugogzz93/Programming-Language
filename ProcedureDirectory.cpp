@@ -43,20 +43,22 @@
 		parameterDir.push_back(newRecord);
 	}
 
-	void ProcedureDirectory::addVariable(string type, string name) {
-		if (scope)
+	void ProcedureDirectory::addVariable(string type, string name, string scope) {
+		if (this->scope)
 		{
 			int vAddress = getVAddress("main", type);
 			procDir.front().addVariable(type, name, vAddress, "main");
 			printf("Adding %s %s to %s as %d\n", type.c_str(), name.c_str(), procDir.front().getName().c_str(), vAddress);
 		} else {
 			VariableRecord newRecord(type, name);
+			newRecord.setScope(scope);
+			assignVirtualAddress(newRecord);
 			variableDir.push_back(newRecord);
 			printf("added %s %s as %s\n", type.c_str(), name.c_str(), newRecord.expose().c_str() );
 		}
 	}
 
-	void ProcedureDirectory::addVariableRecord(VariableRecord record) {
+	VariableRecord ProcedureDirectory::addVariableRecord(VariableRecord record) {
 		assignVirtualAddress(record);
 		
 		if (scope) {
@@ -67,6 +69,8 @@
 			printf("@@@@ Assigned %s %s as %s to %s\n", record.getType().c_str(), record.getName().c_str(), record.expose().c_str(), record.getScope().c_str());
 			variableDir.push_back(record);
 		}
+
+		return record;
 	}
 
 	void ProcedureDirectory::listDirectory(bool verbose) {
@@ -99,7 +103,7 @@
 		{
 			// vAddress = vAddressMap[name][varRecord->getType()]++;
 			vAddress = getVAddress(name, varRecord->getType());
-			printf("@@@@@@@@@@@@@@@Address %d added to %s in scope %s\n", vAddress, varRecord->getName().c_str(), name.c_str());
+			printf("@@@@@@@@@@@@@@@ Address %d added to %s in scope %s\n", vAddress, varRecord->getName().c_str(), name.c_str());
 			varRecord->setVAddress(vAddress);
 			varRecord->setScope(name);	
 		}
@@ -109,7 +113,7 @@
 		string scopeName = scope? "main":"local";
 		// int vAddress = vAddressMap[record.getScope()][record.getType()]++;
 		int vAddress = getVAddress(record.getScope(), record.getType());
-		printf("@@@@@@@@@@@@@@@Address %d added to %s in scope %s\n", vAddress, record.getName().c_str(), scopeName.c_str());
+		printf("@@@@@@@@@@@@@@@ Address %d added to %s in scope %s\n", vAddress, record.getName().c_str(), scopeName.c_str());
 		record.setVAddress(vAddress);
 
 	}
@@ -117,6 +121,7 @@
 	VariableRecord& ProcedureDirectory::getVariableByName(string name, string scope) {
 			ProcedureRecord function = getFunctionByName(scope);
 			VariableRecord varRecord = function.getVariableByName(name);
+			cout << varRecord.getName() << endl;
 			return varRecord;
 	}
 
@@ -185,6 +190,24 @@
 
 	int ProcedureDirectory::getVAddress(string scope, string type) {
 		int vAddress = vAddressMap[scope][type]++;
-		printf("\t\tvAddress incremented for type %s to %d in scope: %s\n", type.c_str(), vAddress, scope.c_str());
 		return vAddress;
+	}
+
+	void  ProcedureDirectory::updateVariableRecord(VariableRecord& record) {
+		bool found = false;
+		if (scope)
+		{
+			found = true;
+			record = getVariableByName(record.getName(), "main");
+			printf("found %s as %s\n", record.getName().c_str(), record.expose().c_str());
+		} else {
+			found = true;
+			record = getVariableForFutureFunc(record.getName());
+			printf("found %s as %s\n", record.getName().c_str(), record.expose().c_str());
+		}
+
+		if (!found)
+		{
+			throw invalid_argument("Variable " + record.getName() + " could not be updated, not found\n");
+		}
 	}

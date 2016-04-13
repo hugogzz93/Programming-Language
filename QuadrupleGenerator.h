@@ -41,7 +41,7 @@ private:
 	//signals class what type of variable it will receive next
 	int varFlag;
 
-	void generateOperationQuadruple(string op, VariableRecord lOp, VariableRecord rOp);
+	void generateOperationQuadruple(string& op, VariableRecord& lOp, VariableRecord& rOp);
 
 };
 #endif

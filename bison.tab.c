@@ -283,7 +283,7 @@
 
 	inline void addVariable(char* type, char* name) {
 		string sName(name), sType(type);
-		procDir.addVariable(sType, sName);
+		procDir.addVariable(sType, sName, quadGenerator.getCurrentScope());
 	}
 
 	inline void addFunction(char* type, char* name) {
@@ -667,7 +667,7 @@ static const yytype_int16 yyrhs[] =
        7,    -1,   142,    -1,   111,    -1,   143,   112,   143,    -1,
      136,    -1,   135,    -1,    71,   114,    10,    71,    -1,    14,
       -1,    16,    -1,    15,    -1,    17,    -1,    90,    -1,   130,
-      -1,    69,    -1,    70,    -1,    72,    -1,    71,    -1,   115,
+      -1,    71,    -1,    69,    -1,    70,    -1,    72,    -1,   115,
        7,    -1,   103,    -1,    89,     7,    -1,   120,    -1,    97,
        7,    -1,   144,    -1,   147,    -1,    -1,    84,   118,   119,
       47,   115,     7,    -1,   116,   119,    -1,    -1,    -1,    -1,
@@ -810,12 +810,12 @@ static const yytype_uint8 yydefact[] =
 {
        0,     0,     0,     0,     1,     3,     4,    17,     0,     2,
        0,     0,    22,     0,    51,     9,     0,     0,    45,    46,
-      47,    48,    49,   132,     0,     0,     0,    73,    74,    76,
-      75,     5,     0,    71,     0,     0,    38,    25,    78,     0,
+      47,    48,    49,   132,     0,     0,     0,    74,    75,    73,
+      76,     5,     0,    71,     0,     0,    38,    25,    78,     0,
       53,    39,     0,    51,    80,    72,    82,    25,    83,     0,
        0,     8,     6,     0,     0,    88,   133,     0,     0,   137,
       67,    69,    68,    70,     0,     0,    79,     0,    26,    81,
-      73,    76,    40,     0,    50,     0,    57,    52,    25,    77,
+      74,    73,    40,     0,    50,     0,    57,    52,    25,    77,
       25,    10,     7,   128,   129,     0,    62,   130,    61,     0,
       17,    17,     0,    16,     0,     0,     0,     0,     0,    30,
       31,    32,    33,    34,    35,    27,    25,    58,     0,     0,
@@ -1880,32 +1880,32 @@ yyreduce:
 
   case 71:
 #line 360 "bison.y"
-    { (yyval.sval) = "operation"; setVarFlag(QuadrupleGenerator::fOP);   	;}
+    { (yyval.sval) = "operation"; setVarFlag(QuadrupleGenerator::fOP);   	   printf("received operation on line: %d\n", line_num); ;}
     break;
 
   case 72:
 #line 361 "bison.y"
-    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fFUNC); 	;}
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fFUNC); 	   printf("received function_call %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 73:
 #line 362 "bison.y"
-    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fINT);  	;}
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fID);   	   printf("received ID %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 74:
 #line 363 "bison.y"
-    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fFLOAT);	;}
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fINT);  	   printf("received INT %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 75:
 #line 364 "bison.y"
-    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fSTRING);;}
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fFLOAT);	   printf("received FLOAT %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 76:
 #line 365 "bison.y"
-    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fID);   	;}
+    { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fSTRING);   printf("received STRING %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 77:

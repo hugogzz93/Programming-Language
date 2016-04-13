@@ -66,7 +66,7 @@
 
 	inline void addVariable(char* type, char* name) {
 		string sName(name), sType(type);
-		procDir.addVariable(sType, sName);
+		procDir.addVariable(sType, sName, quadGenerator.getCurrentScope());
 	}
 
 	inline void addFunction(char* type, char* name) {
@@ -357,12 +357,12 @@
 				| DIVIDEDBY ;
 
 	expression:
-				operation  			{ $$ = "operation"; setVarFlag(QuadrupleGenerator::fOP);   	}
-				| function_call  	{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fFUNC); 	}
-				| INT  				{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fINT);  	}    //12
-				| FLOAT  			{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fFLOAT);	}  	//12.00
-				| STRING  			{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fSTRING);} 	//"12"
-				| ID 				{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fID);   	} ;  //var
+				operation  			{ $$ = "operation"; setVarFlag(QuadrupleGenerator::fOP);   	   printf("received operation on line: %d\n", line_num); }
+				| function_call  	{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fFUNC); 	   printf("received function_call %s on line: %d\n", $1, line_num); }
+				| ID 				{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fID);   	   printf("received ID %s on line: %d\n", $1, line_num); }   //var
+				| INT  				{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fINT);  	   printf("received INT %s on line: %d\n", $1, line_num); }    //12
+				| FLOAT  			{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fFLOAT);	   printf("received FLOAT %s on line: %d\n", $1, line_num); }  	//12.00
+				| STRING  			{ $$ = $1; 			setVarFlag(QuadrupleGenerator::fSTRING);   printf("received STRING %s on line: %d\n", $1, line_num); } ;	//"12"
 
 	statute:
 				expression DOT 		 	{ printf("Statute exp finished: %d, '%s'\n", line_num, $1); }
