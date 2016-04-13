@@ -24,10 +24,10 @@ programa a4,
             Regresa la suma de 5 con z.
 
     Si a1 es diferente que 5; 
-        la variable b es el entero la multiplicacion de 5 con 6.
+        b es igual a la multiplicacion de 5 con 6.
     .
     De lo contrario 
-        la variable c es el entero llama add con el entero a1 y el entero b.
+        c es igual a llama add con el entero a1 y el entero b.
         5.
         Sumale 5 a a1.
     .
@@ -39,5 +39,5 @@ programa a4,
     Mientras a1 sea menor que 20: 
         quitale 5 a a1. 
         Sumale 1 a b.
-        La variable c es el entero la multiplicacion de a1 con b.
+        c es igual a la multiplicacion de a1 con b.
     .

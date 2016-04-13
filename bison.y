@@ -89,6 +89,10 @@
 
 		return temp;
 	}
+
+	inline void assignVariable(string id, string expression) {
+		
+	}
 %}
 
 %union {
@@ -239,6 +243,11 @@
 	var_dec_pre:
 				RECUERDA ESTO ;
 
+	var_assignation:
+				ID ES IGUAL_SPA A expression { assignVariable($1, $5);};
+				| ;
+
+
 
 	operation:
 				{ printf("starting operation\n");} operation_spa
@@ -358,7 +367,7 @@
 	statute:
 				expression DOT 		 	{ printf("Statute exp finished: %d, '%s'\n", line_num, $1); }
 				| condition 		 	{ }  
-				| var_assignment DOT    { } 
+				| var_assignation DOT   { } 
 				| function_declaration  { }  
 				| mutation DOT 			{ }  
 				| while 				{ }  

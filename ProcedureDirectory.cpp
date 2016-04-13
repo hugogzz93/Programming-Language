@@ -46,7 +46,7 @@
 	void ProcedureDirectory::addVariable(string type, string name) {
 		if (scope)
 		{
-			int vAddress = vAddressMap["main"][type]++;
+			int vAddress = getVAddress("main", type);
 			procDir.front().addVariable(type, name, vAddress, "main");
 			printf("Adding %s %s to %s as %d\n", type.c_str(), name.c_str(), procDir.front().getName().c_str(), vAddress);
 		} else {
@@ -60,9 +60,8 @@
 		assignVirtualAddress(record);
 		
 		if (scope) {
-			ProcedureRecord functionRecord = getFunctionByName(record.getScope());
-			functionRecord.addVariable(record);
-			printf("@@@@ Assigned %s %s as %s to %s\n", record.getType().c_str(), record.getName().c_str(), record.expose().c_str(), functionRecord.getName().c_str());
+			procDir.front().addVariable(record);
+			printf("@@@@ Assigned %s %s as %s to %s\n", record.getType().c_str(), record.getName().c_str(), record.expose().c_str(), record.getScope().c_str());
 			
 		} else {
 			printf("@@@@ Assigned %s %s as %s to %s\n", record.getType().c_str(), record.getName().c_str(), record.expose().c_str(), record.getScope().c_str());
@@ -98,14 +97,19 @@
 
 		for (std::vector<VariableRecord>::iterator varRecord = vec.begin(); varRecord != vec.end(); ++varRecord)
 		{
-			vAddress = vAddressMap[name][varRecord->getType()]++;
+			// vAddress = vAddressMap[name][varRecord->getType()]++;
+			vAddress = getVAddress(name, varRecord->getType());
+			printf("@@@@@@@@@@@@@@@Address %d added to %s in scope %s\n", vAddress, varRecord->getName().c_str(), name.c_str());
 			varRecord->setVAddress(vAddress);
 			varRecord->setScope(name);	
 		}
 	}
 
 	void ProcedureDirectory::assignVirtualAddress(VariableRecord& record) {
-		int vAddress = vAddressMap[record.getScope()][record.getType()]++;
+		string scopeName = scope? "main":"local";
+		// int vAddress = vAddressMap[record.getScope()][record.getType()]++;
+		int vAddress = getVAddress(record.getScope(), record.getType());
+		printf("@@@@@@@@@@@@@@@Address %d added to %s in scope %s\n", vAddress, record.getName().c_str(), scopeName.c_str());
 		record.setVAddress(vAddress);
 
 	}
@@ -177,4 +181,10 @@
 
 	vector<VariableRecord>& ProcedureDirectory::getParameterDir() {
 		return parameterDir;
+	}
+
+	int ProcedureDirectory::getVAddress(string scope, string type) {
+		int vAddress = vAddressMap[scope][type]++;
+		printf("\t\tvAddress incremented for type %s to %d in scope: %s\n", type.c_str(), vAddress, scope.c_str());
+		return vAddress;
 	}

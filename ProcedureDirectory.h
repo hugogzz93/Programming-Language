@@ -46,5 +46,6 @@ private:
 
 	void assignVirtualAddresses(vector<VariableRecord> &vec, string name);
 	void assignVirtualAddress(VariableRecord& record);
+	int getVAddress(string scope, string type);
 };
 #endif
