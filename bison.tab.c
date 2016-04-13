@@ -283,7 +283,7 @@
 
 	inline void addVariable(char* type, char* name) {
 		string sName(name), sType(type);
-		procDir.addVariable(sType, sName, quadGenerator.getCurrentScope());
+		procDir.addVariable(sType, sName);
 	}
 
 	inline void addFunction(char* type, char* name) {
@@ -1968,7 +1968,7 @@ yyreduce:
 
   case 96:
 #line 401 "bison.y"
-    { printf("adding parameter %s %s\n", (yyvsp[(2) - (3)].sval), (yyvsp[(1) - (3)].sval)); addParameter((yyvsp[(1) - (3)].sval), (yyvsp[(2) - (3)].sval)); ;}
+    { addParameter((yyvsp[(1) - (3)].sval), (yyvsp[(2) - (3)].sval)); ;}
     break;
 
   case 102:

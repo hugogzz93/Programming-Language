@@ -66,7 +66,7 @@
 
 	inline void addVariable(char* type, char* name) {
 		string sName(name), sType(type);
-		procDir.addVariable(sType, sName, quadGenerator.getCurrentScope());
+		procDir.addVariable(sType, sName);
 	}
 
 	inline void addFunction(char* type, char* name) {
@@ -398,7 +398,7 @@
 				LA VARIABLE func_param_dec_a ;
 
 	func_param_dec_a:
-				type ID func_param_dec_b { printf("adding parameter %s %s\n", $2, $1); addParameter($1, $2); };
+				type ID func_param_dec_b { addParameter($1, $2); };
 
 	func_param_dec_b:
 				COMA func_param_dec_c

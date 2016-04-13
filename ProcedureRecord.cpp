@@ -82,13 +82,13 @@ void ProcedureRecord::showSignature(bool verbose) {
 	}
 }
 
-VariableRecord ProcedureRecord::getVariableByName(string name) {
+VariableRecord *ProcedureRecord::getVariableByName(string name) {
 
 	for (std::vector<VariableRecord>::iterator record = parameterDir.begin(); record != parameterDir.end(); ++record)
 	{
 		if (record->getName() == name)
 		{
-			return *record;
+			return &(*record);
 		}
 	}
 
@@ -96,7 +96,7 @@ VariableRecord ProcedureRecord::getVariableByName(string name) {
 	{
 		if (record->getName() == name)
 		{
-			return *record;
+			return &(*record);
 		}
 	}
 

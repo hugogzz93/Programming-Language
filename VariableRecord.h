@@ -27,8 +27,8 @@ public:
 	string expose();
 
 private:
-	string name, type, scope;
-	int vAddress;
+	string name = "undefined_name", type = "undefined_type", scope = "undefined_scope";
+	int vAddress = -1;
 };
 
 #endif

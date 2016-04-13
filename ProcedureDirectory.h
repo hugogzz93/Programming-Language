@@ -18,24 +18,27 @@ public:
 	void enterGlobalScope();
 	void addFunction(string type, string name);
 	void addParameter(string type, string name);
-	void addVariable(string type, string name, string scope);
+	void addVariable(string type, string name);
 	void listDirectory(bool verbose = false);
 	void updateVariableRecord(VariableRecord& record);
+	void setCurrentScope(string name);
 
 
 	void addQuadruple(const Quadruple& quad, string scope);
 	VariableRecord addVariableRecord(VariableRecord record);
 
-	VariableRecord& getVariableByName(string name, string scope); //throws invalid_argument exception
-	VariableRecord& getVariableForFutureFunc(string name); //throws invalid_argument exception
-	VariableRecord& getParameterForFutureFunc(string name); //throws invalid_argument exception
-	ProcedureRecord& getFunctionByName(string name); //throws invalid_argument exception
+	VariableRecord* getVariableByName(string name, string scope); //throws invalid_argument exception
+	VariableRecord* getVariableForFutureFunc(string name); //throws invalid_argument exception
+	VariableRecord* getParameterForFutureFunc(string name); //throws invalid_argument exception
+	ProcedureRecord* getFunctionByName(string name); //throws invalid_argument exception
 	vector<VariableRecord>& getVariableDir();
 	vector<VariableRecord>& getParameterDir();
+	string getCurrentScope();
 	
 
 private:
 	bool scope; //true = global
+	string currentScopeName = "main";
 	vector<ProcedureRecord> procDir;
 
 	// temporal signature storage for functions

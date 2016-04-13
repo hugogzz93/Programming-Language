@@ -21,7 +21,8 @@ public:
 	void addVariable(VariableRecord record);
 	void showSignature(bool verbose = false);
 
-	VariableRecord getVariableByName(string name);
+	VariableRecord *getVariableByName(string name);
+	// VariableRecord getVariableByName(string name);
 
 	string getName();
 	string getType();
