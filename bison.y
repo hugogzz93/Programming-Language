@@ -61,6 +61,7 @@
 
 	inline void addParameter(char* type, char* name) {
 		string sName(name), sType(type);
+		
 		procDir.addParameter(sType, sName);
 	}
 
@@ -90,8 +91,8 @@
 		return temp;
 	}
 
-	inline void assignVariable(string id, string expression) {
-		
+	inline void variableAssignment(string id, string operand) {
+		quadGenerator.variableAssignment(id, operand);
 	}
 %}
 
@@ -244,7 +245,7 @@
 				RECUERDA ESTO ;
 
 	var_assignation:
-				ID ES IGUAL_SPA A expression { assignVariable($1, $5);};
+				ID ES IGUAL_SPA A expression { variableAssignment($1, $5);};
 				| ;
 
 

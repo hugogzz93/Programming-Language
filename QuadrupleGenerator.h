@@ -23,6 +23,8 @@ public:
 	void pushLeftOperand(string operand);
 	void pushRightOperand(string operand);
 
+	void variableAssignment(string id, string operand);
+
 	int getVarFlag();
 	string getCurrentScope();
 
@@ -42,6 +44,7 @@ private:
 	int varFlag;
 
 	void generateOperationQuadruple(string& op, VariableRecord& lOp, VariableRecord& rOp);
+	void generateAssignmentQuadruple(VariableRecord& lOp, VariableRecord& rOp);
 
 };
 #endif

@@ -29,6 +29,14 @@ void QuadrupleGenerator::setVarFlag(int flag) {
 	this->varFlag = flag;
 }
 
+int QuadrupleGenerator::getVarFlag() {
+	return varFlag;
+}
+
+string QuadrupleGenerator::getCurrentScope() {
+	return currentScope;
+}
+
 void QuadrupleGenerator::pushOperation(string operation) {
 	operationStack.push(operation);
 }
@@ -170,28 +178,60 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 	}
 }
 
-int QuadrupleGenerator::getVarFlag() {
-	return varFlag;
-}
+void QuadrupleGenerator::variableAssignment(string id, string operand) {	
+	VariableRecord rOperand, *lOperandP;
+	lOperandP = currentScope == "main" ? procDir->getVariableByName(id, "main"): procDir->getVariableForFutureFunc(id);
+	switch(varFlag) {
+		case fINT:
+			rOperand.setType("INT");
+			rOperand.setName("CTE-" + operand);
+			generateAssignmentQuadruple(*lOperandP, rOperand);
+			break;
 
-string QuadrupleGenerator::getCurrentScope() {
-	return currentScope;
+		case fFLOAT:
+			rOperand.setType("FLOAT");
+			rOperand.setName("CTE-" + operand);
+			generateAssignmentQuadruple(*lOperandP, rOperand);
+			break;
+
+		case fSTRING:
+			rOperand.setType("STRING");
+			rOperand.setName("CTE-" + operand);
+			generateAssignmentQuadruple(*lOperandP, rOperand);
+			break;
+
+		case fID: {
+			VariableRecord *rOperandP = currentScope == "main" ? procDir->getVariableByName(operand, "main"): procDir->getVariableForFutureFunc(operand);
+			generateAssignmentQuadruple(*lOperandP, *rOperandP);
+			break;
+		}
+
+		case fOP: 
+			rOperand = operandStack.top();
+			operandStack.pop();
+			generateAssignmentQuadruple(*lOperandP, rOperand);
+			break;
+
+		case fFUNC:
+			break;
+	}	
 }
 
 void QuadrupleGenerator::generateOperationQuadruple(string& op, VariableRecord& lOp, VariableRecord& rOp) {
-
-	printf("\n@@@@@\ngenerating Quad received: %s %s %s\n@@@@@@\n", op.c_str(), lOp.expose().c_str(), rOp.expose().c_str() );
 
 	VariableRecord temp(semanticCube.getResult(op, lOp.getType(), rOp.getType()), 
 												"temp_" + lOp.getName() + "_" + rOp.getName());
 
 	temp.setScope(getCurrentScope());
 	temp = procDir->addVariableRecord(temp);
-	// procDir->updateVariableRecord(lOp);
-	// procDir->updateVariableRecord(rOp);
+	operandStack.push(temp);
 
 	Quadruple instruction(op, lOp.expose(), rOp.expose(), temp.expose());
 	procDir->addQuadruple(instruction, getCurrentScope());
 
-	printf("Generating quad for %s\n", getCurrentScope().c_str());
+}
+
+void QuadrupleGenerator::generateAssignmentQuadruple(VariableRecord& lOp, VariableRecord& rOp) {
+	Quadruple instruction("=", lOp.expose(), "", rOp.expose());
+	procDir->addQuadruple(instruction, getCurrentScope());
 }

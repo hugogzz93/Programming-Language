@@ -196,7 +196,7 @@
 		{
 			vAddressMap[scope] = { {"INT", 0}, {"FLOAT", 1000}, {"STRING", 2000} };
 		}
-		int vAddress = vAddressMap[scope][type]++;
+		int vAddress = vAddressMap[scope][type]++;	
 		return vAddress;
 	}
 
