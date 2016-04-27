@@ -19,7 +19,13 @@ string VariableRecord::getType() {
 }
 
 string VariableRecord::expose() {
-	return getScope() + "(" + to_string(getVAddress()) + ")";
+	string message;
+	if(getConstant()) {
+		message = getName();
+	} else {
+		message = getScope() + "(" + to_string(getVAddress()) + ")";	
+	}
+	return message;
 }
 
 int VariableRecord::getVAddress() {
@@ -28,6 +34,10 @@ int VariableRecord::getVAddress() {
 
 string VariableRecord::getScope() {
 	return scope;
+}
+
+bool VariableRecord::getConstant() {
+	return constant;
 }
 
 void VariableRecord::setType(string type) {
@@ -45,4 +55,8 @@ void VariableRecord::setVAddress(int vAddress) {
 
 void VariableRecord::setScope(string scope) {
 	this->scope = scope;
+}
+
+void VariableRecord::setConstant(bool constant) {
+	this->constant = constant;
 }

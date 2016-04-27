@@ -235,7 +235,7 @@
 
 
 	var_assignment:
-				LA VARIABLE ID ES EL type { printf("Registering variable %s\n", $3); addVariable($6, $3); } expression var_assignment_a ; 
+				LA VARIABLE ID ES EL type { printf("Registering variable %s\n", $3); addVariable($6, $3); } expression { variableAssignment($3, $8)} var_assignment_a ; 
 
 	var_assignment_a:
 				COMA var_assignment ;

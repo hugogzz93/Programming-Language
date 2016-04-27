@@ -50,6 +50,7 @@ void QuadrupleGenerator::pushLeftOperand(string operand) {
 			lOperand.setType("INT");
 			lOperand.setScope(getCurrentScope());
 			lOperand.setName("CTE-" + operand);
+			lOperand.setConstant(true);
 			lOperand = procDir->addVariableRecord(lOperand);
 			operandStack.push(lOperand);
 			break;
@@ -58,6 +59,7 @@ void QuadrupleGenerator::pushLeftOperand(string operand) {
 			lOperand.setType("FLOAT");
 			lOperand.setScope(getCurrentScope());
 			lOperand.setName("CTE-" + operand);
+			lOperand.setConstant(true);
 			lOperand = procDir->addVariableRecord(lOperand);
 			operandStack.push(lOperand);
 			break;
@@ -66,6 +68,7 @@ void QuadrupleGenerator::pushLeftOperand(string operand) {
 			lOperand.setType("STRING");
 			lOperand.setScope(getCurrentScope());
 			lOperand.setName("CTE-" + operand);
+			lOperand.setConstant(true);
 			lOperand = procDir->addVariableRecord(lOperand);
 			operandStack.push(lOperand);
 			break;
@@ -105,6 +108,7 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 			// VariableRecord rOperand("INT", operand);
 			rOperand.setType("INT");
 			rOperand.setName("CTE-" + operand);
+			rOperand.setConstant(true);
 			rOperand = procDir->addVariableRecord(rOperand);
 			lOperand = operandStack.top();
 			operandStack.pop();
@@ -117,6 +121,7 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 			// VariableRecord rOperand("FLOAT", operand);
 			rOperand.setType("FLOAT");
 			rOperand.setName("CTE-" + operand);
+			rOperand.setConstant(true);
 			rOperand = procDir->addVariableRecord(rOperand);
 			lOperand = operandStack.top();
 			operandStack.pop();
@@ -129,6 +134,7 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 			// VariableRecord rOperand("STRING", operand);
 			rOperand.setType("STRING");
 			rOperand.setName("CTE-" + operand);
+			rOperand.setConstant(true);
 			rOperand = procDir->addVariableRecord(rOperand);
 			lOperand = operandStack.top();
 			operandStack.pop();
@@ -185,18 +191,21 @@ void QuadrupleGenerator::variableAssignment(string id, string operand) {
 		case fINT:
 			rOperand.setType("INT");
 			rOperand.setName("CTE-" + operand);
+			rOperand.setConstant(true);
 			generateAssignmentQuadruple(*lOperandP, rOperand);
 			break;
 
 		case fFLOAT:
 			rOperand.setType("FLOAT");
 			rOperand.setName("CTE-" + operand);
+			rOperand.setConstant(true);
 			generateAssignmentQuadruple(*lOperandP, rOperand);
 			break;
 
 		case fSTRING:
 			rOperand.setType("STRING");
 			rOperand.setName("CTE-" + operand);
+			rOperand.setConstant(true);
 			generateAssignmentQuadruple(*lOperandP, rOperand);
 			break;
 
@@ -220,7 +229,7 @@ void QuadrupleGenerator::variableAssignment(string id, string operand) {
 void QuadrupleGenerator::generateOperationQuadruple(string& op, VariableRecord& lOp, VariableRecord& rOp) {
 
 	VariableRecord temp(semanticCube.getResult(op, lOp.getType(), rOp.getType()), 
-												"temp_" + lOp.getName() + "_" + rOp.getName());
+												"temp_" + lOp.getName() + "_" + op + "_" + rOp.getName());
 
 	temp.setScope(getCurrentScope());
 	temp = procDir->addVariableRecord(temp);
@@ -232,6 +241,6 @@ void QuadrupleGenerator::generateOperationQuadruple(string& op, VariableRecord& 
 }
 
 void QuadrupleGenerator::generateAssignmentQuadruple(VariableRecord& lOp, VariableRecord& rOp) {
-	Quadruple instruction("=", lOp.expose(), "", rOp.expose());
+	Quadruple instruction("=", rOp.expose(), "", lOp.expose());
 	procDir->addQuadruple(instruction, getCurrentScope());
 }
