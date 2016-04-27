@@ -28,16 +28,15 @@ programa a4,
     .
     De lo contrario 
         c es igual a llama add con el entero a1 y el entero b.
-        5.
         Sumale 5 a a1.
     .
 
     Para cada numero del 1 al 10: 
-        sumale numero a b.
+        sumale 1 a b.
     .
     
     Mientras a1 sea menor que 20: 
-        quitale 5 a a1. 
+        quitale 5 a a1, 2 a c. 
         Sumale 1 a b.
         c es igual a la multiplicacion de a1 con b.
     .

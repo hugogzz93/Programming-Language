@@ -25,6 +25,7 @@
 	SemanticCube cube;
 	QuadrupleGenerator quadGenerator(&procDir, cube);
 
+
 	void pushOperation(QuadrupleGenerator& quadGenerator, char* op) {
 		string sOp(op);
 		quadGenerator.pushOperation(sOp);
@@ -38,6 +39,18 @@
 	void pushRightOperand(QuadrupleGenerator& quadGenerator, char* rOp) {
 		string rOperand(rOp);
 		quadGenerator.pushRightOperand(rOperand);
+	}
+
+	inline void executeMutation() {
+		quadGenerator.executeMutation();
+	}
+
+	inline void finishMutationChain() {
+		quadGenerator.finishMutationChain();
+	}
+
+	inline void executeOperation() {
+		quadGenerator.executeOperation();
 	}
 
 	inline void setVarFlag(int flag) {
@@ -189,6 +202,7 @@
 %type<sval> function_call function_call_a
 %type<sval> type
 %type<sval> operand
+%type<sval> operator_spa_mod
 
 %%
 
@@ -274,7 +288,7 @@
 
 
 	operation_spa:
-				LA operator_spa { pushOperation(quadGenerator, $2); } DE operand { printf("\tpushing LeftOp: %s\n", $5); pushLeftOperand(quadGenerator, $5); } concatenation_op operand { printf("\tright operand added on line: %d\n", line_num); pushRightOperand(quadGenerator, $8); };
+				LA operator_spa { pushOperation(quadGenerator, $2); } DE operand { printf("\tpushing LeftOp: %s\n", $5); pushLeftOperand(quadGenerator, $5); } concatenation_op operand { printf("\tright operand added on line: %d\n", line_num); pushRightOperand(quadGenerator, $8); executeOperation();};
 
 
 	operator_spa:
@@ -295,10 +309,10 @@
 				| mutation_norm;
 
 	mutation_spa:
-				operator_spa_mod mutation_spa_a;
+				operator_spa_mod { pushOperation(quadGenerator, $1);  } mutation_spa_a { finishMutationChain(); }
 
 	mutation_spa_a:
-				operand A operand mutation_spa_b;
+				operand { pushLeftOperand(quadGenerator, $1); } A operand { pushRightOperand(quadGenerator, $4);} mutation_spa_b {executeMutation(); };
 
 	mutation_spa_b:
 				COMA mutation_spa_a
@@ -307,11 +321,11 @@
 
 
 	operator_spa_mod:
-				SUMALE
-				| QUITALE 
-				| RESTALE
-				| AGREGALE
-				| INCREMENTALE ;
+				SUMALE 				{ $$ = "+="; }
+				| QUITALE			{ $$ = "-="; }
+				| RESTALE			{ $$ = "-="; }
+				| AGREGALE			{ $$ = "+="; }
+				| INCREMENTALE  	{ $$ = "+="; } ;
 
 	operand:
 				expression { $$ = $1; };

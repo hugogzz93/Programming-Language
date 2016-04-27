@@ -23,6 +23,11 @@ public:
 	void pushLeftOperand(string operand);
 	void pushRightOperand(string operand);
 
+	void executeMutation();
+	void finishMutationChain();
+
+	void executeOperation();
+
 	void variableAssignment(string id, string operand);
 
 	int getVarFlag();
