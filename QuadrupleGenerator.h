@@ -22,6 +22,8 @@ public:
 	void pushOperation(string operation);
 	void pushLeftOperand(string operand);
 	void pushRightOperand(string operand);
+	void pushJumpStack(int index);
+	void startConditional();
 
 	void executeMutation();
 	void finishMutationChain();
@@ -41,6 +43,7 @@ private:
 	string currentScope;
 	stack<string> operationStack;
 	stack<VariableRecord> operandStack;
+	stack<int> jumpStack;
 	ProcedureDirectory* procDir;
 	SemanticCube semanticCube;
 	unordered_map<string, Quadruple> instructions;
@@ -50,6 +53,8 @@ private:
 
 	void generateOperationQuadruple(string& op, VariableRecord& lOp, VariableRecord& rOp);
 	void generateAssignmentQuadruple(VariableRecord& lOp, VariableRecord& rOp);
+	void generateGotoQuadruple();
+	void generateGotoCondQuadruple(VariableRecord evaluated);
 
 };
 #endif

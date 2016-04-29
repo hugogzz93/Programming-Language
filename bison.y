@@ -107,6 +107,10 @@
 	inline void variableAssignment(string id, string operand) {
 		quadGenerator.variableAssignment(id, operand);
 	}
+
+	inline void startConditional() {
+		quadGenerator.startConditional();
+	}
 %}
 
 %union {
@@ -332,7 +336,7 @@
 
 
 	condition:
-				{printf("condition start on line %d\n", line_num)} block_condition { printf("condition finished, %d\n", line_num)}
+				{printf("condition start on line %d\n", line_num); startConditional();} block_condition { printf("condition finished, %d\n", line_num)}
 				| condition_suffix ;
 
 

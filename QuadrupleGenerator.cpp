@@ -195,6 +195,16 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 	}
 }
 
+void QuadrupleGenerator::pushJumpStack(int index) {
+	jumpStack.push(index);
+}
+
+void QuadrupleGenerator::startConditional() {
+	pushJumpStack(procDir->getCurrentInstructionIndex(getCurrentScope()));
+	VariableRecord booleanRecord = operandStack.top(); operandStack.pop();
+	generateGotoCondQuadruple(booleanRecord);
+}
+
 void QuadrupleGenerator::executeOperation() {
 	string op = operationStack.top(); operationStack.pop();
 	VariableRecord rOperand = operandStack.top(); operandStack.pop();
@@ -252,7 +262,6 @@ void QuadrupleGenerator::executeMutation() {
 	generateOperationQuadruple(op, lOperand, rOperand);
 	VariableRecord result = operandStack.top(); operandStack.pop();
 	generateAssignmentQuadruple(rOperand, result );
-
 }
 
 void QuadrupleGenerator::finishMutationChain() {
@@ -270,10 +279,19 @@ void QuadrupleGenerator::generateOperationQuadruple(string& op, VariableRecord& 
 
 	Quadruple instruction(op, lOp.expose(), rOp.expose(), temp.expose());
 	procDir->addQuadruple(instruction, getCurrentScope());
-
 }
 
 void QuadrupleGenerator::generateAssignmentQuadruple(VariableRecord& lOp, VariableRecord& rOp) {
 	Quadruple instruction("=", rOp.expose(), "", lOp.expose());
+	procDir->addQuadruple(instruction, getCurrentScope());
+}
+
+void QuadrupleGenerator::generateGotoCondQuadruple(VariableRecord evaluated) {
+	Quadruple instruction("GOTOF", evaluated.expose(), "", "");
+	procDir->addQuadruple(instruction, getCurrentScope());
+}
+
+void QuadrupleGenerator::generateGotoQuadruple() {
+	Quadruple instruction("GOTO", "", "", "");
 	procDir->addQuadruple(instruction, getCurrentScope());
 }

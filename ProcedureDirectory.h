@@ -25,6 +25,7 @@ public:
 
 
 	void addQuadruple(const Quadruple& quad, string scope);
+	int getCurrentInstructionIndex(string scope);
 	VariableRecord addVariableRecord(VariableRecord record);
 
 	VariableRecord* getVariableByName(string name, string scope); //throws invalid_argument exception

@@ -130,6 +130,10 @@
 		quadrupleMap[scope].push_back(quad);
 	}
 
+	int ProcedureDirectory::getCurrentInstructionIndex(string scope) {
+		return quadrupleMap[scope].size();
+	}
+
 	VariableRecord* ProcedureDirectory::getVariableForFutureFunc(string name) {
 		printf("looking for: %s in local scope\n", name.c_str());
 
@@ -194,7 +198,7 @@
 		unordered_map<string, unordered_map<string, int>>::const_iterator got = vAddressMap.find(scope);
 		if (got == vAddressMap.end())
 		{
-			vAddressMap[scope] = { {"INT", 0}, {"FLOAT", 1000}, {"STRING", 2000} };
+			vAddressMap[scope] = { {"INT", 0}, {"FLOAT", 1000}, {"STRING", 2000}, {"BOOL", 3000} };
 		}
 		int vAddress = vAddressMap[scope][type]++;	
 		return vAddress;
