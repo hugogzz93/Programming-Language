@@ -333,6 +333,10 @@
 		quadGenerator.finishConditionalChain();
 	}
 
+	inline void finishConditional() {
+		quadGenerator.finishConditional();
+	}
+
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -354,14 +358,14 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 120 "bison.y"
+#line 124 "bison.y"
 {
 	int ival;
 	float fval;
 	char *sval;
 }
 /* Line 193 of yacc.c.  */
-#line 365 "bison.tab.c"
+#line 369 "bison.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -374,7 +378,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 378 "bison.tab.c"
+#line 382 "bison.tab.c"
 
 #ifdef short
 # undef short
@@ -715,21 +719,21 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   219,   219,   222,   223,   227,   230,   233,   236,   237,
-     240,   241,   245,   248,   251,   252,   256,   257,   261,   261,
-     261,   264,   265,   268,   271,   272,   277,   277,   300,   300,
-     300,   304,   305,   306,   307,   308,   309,   312,   313,   317,
-     318,   321,   321,   324,   324,   324,   327,   328,   329,   333,
-     334,   335,   336,   337,   340,   344,   344,   345,   349,   349,
-     352,   353,   355,   356,   359,   362,   366,   367,   369,   369,
-     371,   372,   375,   378,   379,   380,   381,   384,   385,   386,
-     387,   388,   389,   392,   393,   394,   395,   396,   397,   398,
-     401,   401,   404,   405,   408,   408,   408,   414,   415,   418,
-     419,   422,   425,   428,   429,   430,   433,   434,   440,   441,
-     442,   463,   466,   467,   470,   473,   474,   477,   478,   481,
-     482,   483,   484,   487,   490,   491,   494,   495,   496,   499,
-     500,   501,   504,   507,   510,   511,   514,   517,   520,   521,
-     524,   528,   529,   532,   534,   536,   537,   540
+       0,   223,   223,   226,   227,   231,   234,   237,   240,   241,
+     244,   245,   249,   252,   255,   256,   260,   261,   265,   265,
+     265,   268,   269,   272,   275,   276,   281,   281,   304,   304,
+     304,   308,   309,   310,   311,   312,   313,   316,   317,   321,
+     322,   325,   325,   328,   328,   328,   331,   332,   333,   337,
+     338,   339,   340,   341,   344,   348,   348,   349,   353,   353,
+     356,   357,   359,   360,   363,   366,   370,   371,   373,   373,
+     375,   376,   379,   382,   383,   384,   385,   388,   389,   390,
+     391,   392,   393,   396,   397,   398,   399,   400,   401,   402,
+     405,   405,   408,   409,   412,   412,   412,   418,   419,   422,
+     423,   426,   429,   432,   433,   434,   437,   438,   444,   445,
+     446,   467,   470,   471,   474,   477,   478,   481,   482,   485,
+     486,   487,   488,   491,   494,   495,   498,   499,   500,   503,
+     504,   505,   508,   511,   514,   515,   518,   521,   524,   525,
+     528,   532,   533,   536,   538,   540,   541,   544
 };
 #endif
 
@@ -1824,237 +1828,237 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 219 "bison.y"
+#line 223 "bison.y"
     { printf("Accepted Syntax!\n"); listDirectory(true); ;}
     break;
 
   case 18:
-#line 261 "bison.y"
+#line 265 "bison.y"
     { printf("Registering variable %s\n", (yyvsp[(3) - (6)].sval)); addVariable((yyvsp[(6) - (6)].sval), (yyvsp[(3) - (6)].sval)); ;}
     break;
 
   case 19:
-#line 261 "bison.y"
+#line 265 "bison.y"
     { variableAssignment((yyvsp[(3) - (8)].sval), (yyvsp[(8) - (8)].sval));}
     break;
 
   case 24:
-#line 271 "bison.y"
+#line 275 "bison.y"
     { variableAssignment((yyvsp[(1) - (5)].sval), (yyvsp[(5) - (5)].sval));;}
     break;
 
   case 26:
-#line 277 "bison.y"
+#line 281 "bison.y"
     { printf("starting operation\n");;}
     break;
 
   case 28:
-#line 300 "bison.y"
+#line 304 "bison.y"
     { pushOperation(quadGenerator, (yyvsp[(2) - (2)].sval)); ;}
     break;
 
   case 29:
-#line 300 "bison.y"
+#line 304 "bison.y"
     { printf("\tpushing LeftOp: %s\n", (yyvsp[(5) - (5)].sval)); pushLeftOperand(quadGenerator, (yyvsp[(5) - (5)].sval)); ;}
     break;
 
   case 30:
-#line 300 "bison.y"
+#line 304 "bison.y"
     { printf("\tright operand added on line: %d\n", line_num); pushRightOperand(quadGenerator, (yyvsp[(8) - (8)].sval)); executeOperation();;}
     break;
 
   case 31:
-#line 304 "bison.y"
+#line 308 "bison.y"
     { (yyval.sval) = "+";  ;}
     break;
 
   case 32:
-#line 305 "bison.y"
+#line 309 "bison.y"
     { (yyval.sval) = "+";  ;}
     break;
 
   case 33:
-#line 306 "bison.y"
+#line 310 "bison.y"
     { (yyval.sval) = "-";  ;}
     break;
 
   case 34:
-#line 307 "bison.y"
+#line 311 "bison.y"
     { (yyval.sval) = "-";  ;}
     break;
 
   case 35:
-#line 308 "bison.y"
+#line 312 "bison.y"
     { (yyval.sval) = "*";  ;}
     break;
 
   case 36:
-#line 309 "bison.y"
+#line 313 "bison.y"
     { (yyval.sval) = "/";  ;}
     break;
 
   case 41:
-#line 321 "bison.y"
+#line 325 "bison.y"
     { pushOperation(quadGenerator, (yyvsp[(1) - (1)].sval));  ;}
     break;
 
   case 42:
-#line 321 "bison.y"
+#line 325 "bison.y"
     { finishMutationChain(); ;}
     break;
 
   case 43:
-#line 324 "bison.y"
+#line 328 "bison.y"
     { pushLeftOperand(quadGenerator, (yyvsp[(1) - (1)].sval)); ;}
     break;
 
   case 44:
-#line 324 "bison.y"
+#line 328 "bison.y"
     { pushRightOperand(quadGenerator, (yyvsp[(4) - (4)].sval));;}
     break;
 
   case 45:
-#line 324 "bison.y"
+#line 328 "bison.y"
     {executeMutation(); ;}
     break;
 
   case 49:
-#line 333 "bison.y"
-    { (yyval.sval) = "+="; ;}
-    break;
-
-  case 50:
-#line 334 "bison.y"
-    { (yyval.sval) = "-="; ;}
-    break;
-
-  case 51:
-#line 335 "bison.y"
-    { (yyval.sval) = "-="; ;}
-    break;
-
-  case 52:
-#line 336 "bison.y"
-    { (yyval.sval) = "+="; ;}
-    break;
-
-  case 53:
 #line 337 "bison.y"
     { (yyval.sval) = "+="; ;}
     break;
 
-  case 54:
+  case 50:
+#line 338 "bison.y"
+    { (yyval.sval) = "-="; ;}
+    break;
+
+  case 51:
+#line 339 "bison.y"
+    { (yyval.sval) = "-="; ;}
+    break;
+
+  case 52:
 #line 340 "bison.y"
+    { (yyval.sval) = "+="; ;}
+    break;
+
+  case 53:
+#line 341 "bison.y"
+    { (yyval.sval) = "+="; ;}
+    break;
+
+  case 54:
+#line 344 "bison.y"
     { (yyval.sval) = (yyvsp[(1) - (1)].sval); ;}
     break;
 
   case 55:
-#line 344 "bison.y"
+#line 348 "bison.y"
     {printf("condition start on line %d\n", line_num);;}
     break;
 
   case 56:
-#line 344 "bison.y"
-    { printf("condition finished, %d\n", line_num);}
+#line 348 "bison.y"
+    { finishConditional(); printf("condition finished, %d\n", line_num);}
     break;
 
   case 58:
-#line 349 "bison.y"
+#line 353 "bison.y"
     { finishConditionalChain(); startConditional(); ;}
     break;
 
   case 68:
-#line 369 "bison.y"
+#line 373 "bison.y"
     { pushLeftOperand(quadGenerator, (yyvsp[(1) - (1)].sval)); ;}
     break;
 
   case 69:
-#line 369 "bison.y"
+#line 373 "bison.y"
     { pushRightOperand(quadGenerator, (yyvsp[(4) - (4)].sval)); ;}
     break;
 
   case 77:
-#line 384 "bison.y"
+#line 388 "bison.y"
     { (yyval.sval) = "operation"; setVarFlag(QuadrupleGenerator::fOP);   	   printf("received operation on line: %d\n", line_num); ;}
     break;
 
   case 78:
-#line 385 "bison.y"
+#line 389 "bison.y"
     { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fFUNC); 	   printf("received function_call %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 79:
-#line 386 "bison.y"
+#line 390 "bison.y"
     { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fID);   	   printf("received ID %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 80:
-#line 387 "bison.y"
+#line 391 "bison.y"
     { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fINT);  	   printf("received INT %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 81:
-#line 388 "bison.y"
+#line 392 "bison.y"
     { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fFLOAT);	   printf("received FLOAT %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 82:
-#line 389 "bison.y"
+#line 393 "bison.y"
     { (yyval.sval) = (yyvsp[(1) - (1)].sval); 			setVarFlag(QuadrupleGenerator::fSTRING);   printf("received STRING %s on line: %d\n", (yyvsp[(1) - (1)].sval), line_num); ;}
     break;
 
   case 83:
-#line 392 "bison.y"
+#line 396 "bison.y"
     { printf("Statute exp finished: %d, '%s'\n", line_num, (yyvsp[(1) - (2)].sval)); ;}
     break;
 
   case 84:
-#line 393 "bison.y"
-    { ;}
-    break;
-
-  case 85:
-#line 394 "bison.y"
-    { ;}
-    break;
-
-  case 86:
-#line 395 "bison.y"
-    { ;}
-    break;
-
-  case 87:
-#line 396 "bison.y"
-    { ;}
-    break;
-
-  case 88:
 #line 397 "bison.y"
     { ;}
     break;
 
-  case 89:
+  case 85:
 #line 398 "bison.y"
     { ;}
     break;
 
-  case 90:
+  case 86:
+#line 399 "bison.y"
+    { ;}
+    break;
+
+  case 87:
+#line 400 "bison.y"
+    { ;}
+    break;
+
+  case 88:
 #line 401 "bison.y"
+    { ;}
+    break;
+
+  case 89:
+#line 402 "bison.y"
+    { ;}
+    break;
+
+  case 90:
+#line 405 "bison.y"
     {printf("function variables finished\n");;}
     break;
 
   case 94:
-#line 408 "bison.y"
+#line 412 "bison.y"
     { enterLocalScope((yyvsp[(3) - (3)].sval)); ;}
     break;
 
   case 95:
-#line 408 "bison.y"
+#line 412 "bison.y"
     { printf("function header finished\n");;}
     break;
 
   case 96:
-#line 408 "bison.y"
+#line 412 "bison.y"
     { 	printf("Function declaration: %d\n", line_num); 
 																																		addFunction((yyvsp[(7) - (12)].sval), (yyvsp[(3) - (12)].sval)); 
 																																		exitLocalScope();
@@ -2062,83 +2066,83 @@ yyreduce:
     break;
 
   case 102:
-#line 425 "bison.y"
+#line 429 "bison.y"
     { addParameter((yyvsp[(1) - (3)].sval), (yyvsp[(2) - (3)].sval)); ;}
     break;
 
   case 108:
-#line 440 "bison.y"
+#line 444 "bison.y"
     { (yyval.sval) = "INT"; ;}
     break;
 
   case 109:
-#line 441 "bison.y"
+#line 445 "bison.y"
     { (yyval.sval) = "FLOAT"; ;}
     break;
 
   case 110:
-#line 442 "bison.y"
+#line 446 "bison.y"
     { (yyval.sval) = "STRING"; ;}
     break;
 
   case 111:
-#line 463 "bison.y"
+#line 467 "bison.y"
     { (yyval.sval) = "function"; ;}
     break;
 
   case 119:
-#line 481 "bison.y"
+#line 485 "bison.y"
     { pushOperation(quadGenerator, "<");  ;}
     break;
 
   case 120:
-#line 482 "bison.y"
+#line 486 "bison.y"
     { pushOperation(quadGenerator, ">");  ;}
     break;
 
   case 121:
-#line 483 "bison.y"
+#line 487 "bison.y"
     { pushOperation(quadGenerator, "!="); ;}
     break;
 
   case 122:
-#line 484 "bison.y"
+#line 488 "bison.y"
     { pushOperation(quadGenerator, "=="); ;}
     break;
 
   case 129:
-#line 499 "bison.y"
+#line 503 "bison.y"
     { pushOperation(quadGenerator, "<");  ;}
     break;
 
   case 130:
-#line 500 "bison.y"
+#line 504 "bison.y"
     { pushOperation(quadGenerator, ">");  ;}
     break;
 
   case 131:
-#line 501 "bison.y"
+#line 505 "bison.y"
     { pushOperation(quadGenerator, "!="); ;}
     break;
 
   case 132:
-#line 504 "bison.y"
+#line 508 "bison.y"
     { pushOperation(quadGenerator, "=="); ;}
     break;
 
   case 140:
-#line 524 "bison.y"
+#line 528 "bison.y"
     {printf("while end: %d\n", line_num);}
     break;
 
   case 147:
-#line 540 "bison.y"
+#line 544 "bison.y"
     {printf("For end: %d\n", line_num);}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 2142 "bison.tab.c"
+#line 2146 "bison.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2352,7 +2356,7 @@ yyreturn:
 }
 
 
-#line 543 "bison.y"
+#line 547 "bison.y"
 
 
 int main(int, char**) {

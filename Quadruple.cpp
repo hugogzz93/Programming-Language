@@ -11,3 +11,7 @@ ostream& operator<<(ostream& os, const Quadruple& quad)
     os << "[ " << quad.operation << ", " << quad.left_operand << ", " << quad.right_operand << ", " << quad.result << " ]";
     return os;
 }
+
+void Quadruple::setResult(string result) {
+	this->result = result;
+}

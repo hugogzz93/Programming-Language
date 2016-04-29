@@ -52,7 +52,6 @@ void QuadrupleGenerator::pushLeftOperand(string operand) {
 			lOperand.setScope(getCurrentScope());
 			lOperand.setName("CTE-" + operand);
 			lOperand.setConstant(true);
-			// lOperand = procDir->addVariableRecord(lOperand);
 			operandStack.push(lOperand);
 			break;
 
@@ -61,7 +60,6 @@ void QuadrupleGenerator::pushLeftOperand(string operand) {
 			lOperand.setScope(getCurrentScope());
 			lOperand.setName("CTE-" + operand);
 			lOperand.setConstant(true);
-			// lOperand = procDir->addVariableRecord(lOperand);
 			operandStack.push(lOperand);
 			break;
 
@@ -70,7 +68,6 @@ void QuadrupleGenerator::pushLeftOperand(string operand) {
 			lOperand.setScope(getCurrentScope());
 			lOperand.setName("CTE-" + operand);
 			lOperand.setConstant(true);
-			// lOperand = procDir->addVariableRecord(lOperand);
 			operandStack.push(lOperand);
 			break;
 
@@ -110,48 +107,24 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 
 	switch(varFlag) {
 		case fINT:
-			// VariableRecord rOperand("INT", operand);
 			rOperand.setType("INT");
 			rOperand.setName("CTE-" + operand);
 			rOperand.setConstant(true);
-			// rOperand = procDir->addVariableRecord(rOperand);
 			operandStack.push(rOperand);
-			// lOperand = operandStack.top();
-
-			// operandStack.pop();
-			// operation = operationStack.top();
-			// operationStack.pop();
-			// generateOperationQuadruple(operation, lOperand, rOperand);
 			break;
 
 		case fFLOAT:
-			// VariableRecord rOperand("FLOAT", operand);
 			rOperand.setType("FLOAT");
 			rOperand.setName("CTE-" + operand);
 			rOperand.setConstant(true);
-			// rOperand = procDir->addVariableRecord(rOperand);
 			operandStack.push(rOperand);
-			// lOperand = operandStack.top();
-
-			// operandStack.pop();
-			// operation = operationStack.top();
-			// operationStack.pop();
-			// generateOperationQuadruple(operation, lOperand, rOperand);
 			break;
 
 		case fSTRING:
-			// VariableRecord rOperand("STRING", operand);
 			rOperand.setType("STRING");
 			rOperand.setName("CTE-" + operand);
 			rOperand.setConstant(true);
-			// rOperand = procDir->addVariableRecord(rOperand);
 			operandStack.push(rOperand);
-			// lOperand = operandStack.top();
-
-			// operandStack.pop();
-			// operation = operationStack.top();
-			// operationStack.pop();
-			// generateOperationQuadruple(operation, lOperand, rOperand);
 			break;
 
 		case fID:
@@ -165,12 +138,6 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 					printf("found %s as %s\n", rOperandP->getName().c_str(), rOperandP->expose().c_str());
 				}
 				operandStack.push(*rOperandP);
-				// VariableRecord lOperand = operandStack.top();
-
-				// operandStack.pop();
-				// string operation = operationStack.top();
-				// operationStack.pop();
-				// generateOperationQuadruple(operation, lOperand, *rOperandP);
 			} catch(invalid_argument& e) {
 				cerr << e.what() << " on QuadrupleGenerator::pushRightOperand "<< endl;
 				throw(invalid_argument(""));
@@ -178,16 +145,6 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 			break;
 
 		case fOP: 
-			// rOperand = operandStack.top();
-			// operandStack.pop();
-
-			// lOperand = operandStack.top();
-			// operandStack.pop();
-
-			// operation = operationStack.top();
-			// operationStack.pop();
-
-			// generateOperationQuadruple(operation, lOperand, rOperand);
 			break;
 
 		case fFUNC:
@@ -197,6 +154,11 @@ void QuadrupleGenerator::pushRightOperand(string operand) {
 
 void QuadrupleGenerator::pushJumpStack(int index) {
 	jumpStack.push(index);
+}
+
+int QuadrupleGenerator::popJumpStack() {
+	int index = jumpStack.top(); jumpStack.pop();
+	return index;
 }
 
 void QuadrupleGenerator::startConditional() {
@@ -272,6 +234,11 @@ void QuadrupleGenerator::finishConditionalChain() {
 	VariableRecord rOperand = operandStack.top(); operandStack.pop();
 	VariableRecord lOperand = operandStack.top(); operandStack.pop();
 	generateOperationQuadruple(op, lOperand, rOperand);
+}
+
+void QuadrupleGenerator::finishConditional() {
+	Quadruple* instruction = procDir->getInsAtIndex(getCurrentScope(), popJumpStack());
+	instruction->setResult(to_string(procDir->getCurrentInstructionIndex(getCurrentScope())));
 }
 
 void QuadrupleGenerator::generateOperationQuadruple(string& op, VariableRecord& lOp, VariableRecord& rOp) {

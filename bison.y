@@ -115,6 +115,10 @@
 	inline void finishConditionalChain() {
 		quadGenerator.finishConditionalChain();
 	}
+
+	inline void finishConditional() {
+		quadGenerator.finishConditional();
+	}
 %}
 
 %union {
@@ -341,7 +345,7 @@
 
 
 	condition:
-				{printf("condition start on line %d\n", line_num);} block_condition { printf("condition finished, %d\n", line_num)}
+				{printf("condition start on line %d\n", line_num);} block_condition { finishConditional(); printf("condition finished, %d\n", line_num)}
 				| condition_suffix ;
 
 

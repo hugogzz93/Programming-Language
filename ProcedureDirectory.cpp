@@ -232,3 +232,7 @@
 	string ProcedureDirectory::getCurrentScope() {
 		return currentScopeName;
 	}
+
+	Quadruple* ProcedureDirectory::getInsAtIndex(string scope, int index) {
+		return &quadrupleMap[scope][index];
+	}

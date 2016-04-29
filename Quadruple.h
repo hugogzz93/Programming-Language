@@ -10,6 +10,8 @@ public:
 
 	friend ostream& operator<<(ostream& os, const Quadruple& quad);
 
+	void setResult(string result);
+
 	
 
 private:

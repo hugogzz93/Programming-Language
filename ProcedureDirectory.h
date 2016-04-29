@@ -35,6 +35,7 @@ public:
 	vector<VariableRecord>& getVariableDir();
 	vector<VariableRecord>& getParameterDir();
 	string getCurrentScope();
+	Quadruple* getInsAtIndex(string scope, int index);
 	
 
 private:
