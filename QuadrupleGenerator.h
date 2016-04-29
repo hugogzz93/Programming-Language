@@ -23,7 +23,9 @@ public:
 	void pushLeftOperand(string operand);
 	void pushRightOperand(string operand);
 	void pushJumpStack(int index);
+	
 	void startConditional();
+	void finishConditionalChain();
 
 	void executeMutation();
 	void finishMutationChain();

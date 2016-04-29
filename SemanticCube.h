@@ -24,14 +24,26 @@ private:
   	{"+", "INT"},
   	{"-", "INT"},
   	{"/", "INT"},
-  	{"*", "INT"}
+  	{"*", "INT"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   dimThree intDouble = {
   	{"+", "FLOAT"},
   	{"-", "FLOAT"},
   	{"/", "FLOAT"},
-  	{"*", "FLOAT"}
+  	{"*", "FLOAT"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   dimThree intBool = {
@@ -45,7 +57,13 @@ private:
   	{"+", "STRING"},
   	{"-", "STRING"},
   	{"/", "STRING"},
-  	{"*", "STRING"}
+  	{"*", "STRING"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   //double
@@ -54,14 +72,26 @@ private:
   	{"+", "FLOAT"},
   	{"-", "FLOAT"},
   	{"/", "FLOAT"},
-  	{"*", "FLOAT"}
+  	{"*", "FLOAT"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   dimThree doubleDouble = {
   	{"+", "FLOAT"},
   	{"-", "FLOAT"},
   	{"/", "FLOAT"},
-  	{"*", "FLOAT"}
+  	{"*", "FLOAT"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   dimThree doubleBool = {
@@ -75,7 +105,13 @@ private:
   	{"+", "STRING"},
   	{"-", "STRING"},
   	{"/", "STRING"},
-  	{"*", "STRING"}
+  	{"*", "STRING"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   //string
@@ -83,14 +119,26 @@ private:
   	{"+", "STRING"},
   	{"-", "STRING"},
   	{"/", "STRING"},
-  	{"*", "STRING"}
+  	{"*", "STRING"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   dimThree stringDouble = {
   	{"+", "STRING"},
   	{"-", "STRING"},
   	{"/", "STRING"},
-  	{"*", "STRING"}
+  	{"*", "STRING"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   dimThree stringBool = {
@@ -104,7 +152,13 @@ private:
   	{"+", "STRING"},
   	{"-", "STRING"},
   	{"/", "STRING"},
-  	{"*", "STRING"}
+  	{"*", "STRING"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   //bool
@@ -127,7 +181,13 @@ private:
   	{"+", "BOOL"},
   	{"-", "BOOL"},
   	{"/", "BOOL"},
-  	{"*", "BOOL"}	
+  	{"*", "BOOL"},
+    {">", "BOOL"},
+    {">=", "BOOL"},
+    {"<", "BOOL"},
+    {"<=", "BOOL"},
+    {"!=", "BOOL"},
+    {"==", "BOOL"}
   };
 
   dimThree boolString = {

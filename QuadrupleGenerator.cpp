@@ -256,7 +256,6 @@ void QuadrupleGenerator::variableAssignment(string id, string operand) {
 
 void QuadrupleGenerator::executeMutation() {
 	string op = operationStack.top().substr(0, 1);
-
 	VariableRecord rOperand = operandStack.top(); operandStack.pop();
 	VariableRecord lOperand = operandStack.top(); operandStack.pop();
 	generateOperationQuadruple(op, lOperand, rOperand);
@@ -266,6 +265,13 @@ void QuadrupleGenerator::executeMutation() {
 
 void QuadrupleGenerator::finishMutationChain() {
 	operationStack.pop();
+}
+
+void QuadrupleGenerator::finishConditionalChain() {
+	string op = operationStack.top(); operationStack.pop();
+	VariableRecord rOperand = operandStack.top(); operandStack.pop();
+	VariableRecord lOperand = operandStack.top(); operandStack.pop();
+	generateOperationQuadruple(op, lOperand, rOperand);
 }
 
 void QuadrupleGenerator::generateOperationQuadruple(string& op, VariableRecord& lOp, VariableRecord& rOp) {

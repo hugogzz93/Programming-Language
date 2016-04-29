@@ -111,6 +111,10 @@
 	inline void startConditional() {
 		quadGenerator.startConditional();
 	}
+
+	inline void finishConditionalChain() {
+		quadGenerator.finishConditionalChain();
+	}
 %}
 
 %union {
@@ -207,6 +211,7 @@
 %type<sval> type
 %type<sval> operand
 %type<sval> operator_spa_mod
+%type<sval> dec_operand
 
 %%
 
@@ -336,12 +341,12 @@
 
 
 	condition:
-				{printf("condition start on line %d\n", line_num); startConditional();} block_condition { printf("condition finished, %d\n", line_num)}
+				{printf("condition start on line %d\n", line_num);} block_condition { printf("condition finished, %d\n", line_num)}
 				| condition_suffix ;
 
 
 	block_condition:
-				block_condition_pre declaration SEMICOLON low_block DOT block_condition_a
+				block_condition_pre declaration { finishConditionalChain(); startConditional(); } SEMICOLON low_block DOT block_condition_a
 
 	block_condition_a:
 				block_condition_else low_block DOT
@@ -361,7 +366,7 @@
 				bool
 				| dec ;
 	dec:
-				dec_operand dec_a dec_operand ;
+				dec_operand { pushLeftOperand(quadGenerator, $1); } dec_a dec_operand { pushRightOperand(quadGenerator, $4); };
 	dec_a:
 				dec_op_spa
 				| dec_op ;
@@ -473,10 +478,10 @@
 				| Y ;
 
 	dec_op:
-				LESSTHAN
-				| GREATERTHAN
-				| NOTEQUAL
-				| EQUALS ;
+				LESSTHAN		{ pushOperation(quadGenerator, "<");  }
+				| GREATERTHAN   { pushOperation(quadGenerator, ">");  }
+				| NOTEQUAL      { pushOperation(quadGenerator, "!="); }
+				| EQUALS        { pushOperation(quadGenerator, "=="); };
 
 	dec_op_spa:
 				dec_op_spa_a dec_op_spa_b ;
@@ -491,12 +496,12 @@
 				| dec_op_spa_d A ;
 
 	dec_op_spa_c:
-				MENOR_SPA
-				| MAYOR_SPA
-				| DIFERENTE_SPA ;
+				MENOR_SPA 		{ pushOperation(quadGenerator, "<");  }
+				| MAYOR_SPA		{ pushOperation(quadGenerator, ">");  }
+				| DIFERENTE_SPA { pushOperation(quadGenerator, "!="); };
 
 	dec_op_spa_d:
-				 IGUAL_SPA ;
+				 IGUAL_SPA 		{ pushOperation(quadGenerator, "=="); };
 
 	dec_op_spa_e:
 				QUE ;
