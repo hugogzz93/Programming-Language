@@ -123,6 +123,10 @@
 	inline void startConditionElse() {
 		quadGenerator.startConditionElse();
 	}
+
+	inline void finishWhile() {
+		quadGenerator.finishWhile();
+	}
 %}
 
 %union {
@@ -522,11 +526,11 @@
 				expression ;
 
 	while:
-				while_a declaration COLON low_block while_end ;
+				while_a declaration { finishConditionalChain(); startConditional(); } COLON low_block while_end { finishWhile(); };
 
 	while_a:
-				MIENTRAS
-				| HASTA QUE ;
+				MIENTRAS 	{ }
+				| HASTA QUE {} ;
 
 	while_end:
 				DOT {printf("while end: %d\n", line_num)} ;

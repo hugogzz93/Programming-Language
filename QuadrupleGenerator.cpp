@@ -246,6 +246,12 @@ void QuadrupleGenerator::finishConditional() {
 	finishLastJump();
 }
 
+void QuadrupleGenerator::finishWhile() {
+	int whileStartIndex = jumpStack.top();
+	generateGotoQuadruple(to_string(whileStartIndex-1));
+	finishLastJump();
+}
+
 void QuadrupleGenerator::finishLastJump() {
 	Quadruple* instruction = procDir->getInsAtIndex(getCurrentScope(), popJumpStack());
 	instruction->setResult(to_string(procDir->getCurrentInstructionIndex(getCurrentScope())));
@@ -274,7 +280,7 @@ void QuadrupleGenerator::generateGotoCondQuadruple(VariableRecord evaluated) {
 	procDir->addQuadruple(instruction, getCurrentScope());
 }
 
-void QuadrupleGenerator::generateGotoQuadruple() {
-	Quadruple instruction("GOTO", "", "", "");
+void QuadrupleGenerator::generateGotoQuadruple(string index) {
+	Quadruple instruction("GOTO", "", "", index);
 	procDir->addQuadruple(instruction, getCurrentScope());
 }
