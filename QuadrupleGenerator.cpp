@@ -161,12 +161,6 @@ int QuadrupleGenerator::popJumpStack() {
 	return index;
 }
 
-void QuadrupleGenerator::startConditional() {
-	pushJumpStack(procDir->getCurrentInstructionIndex(getCurrentScope()));
-	VariableRecord booleanRecord = operandStack.top(); operandStack.pop();
-	generateGotoCondQuadruple(booleanRecord);
-}
-
 void QuadrupleGenerator::executeOperation() {
 	string op = operationStack.top(); operationStack.pop();
 	VariableRecord rOperand = operandStack.top(); operandStack.pop();
@@ -229,6 +223,12 @@ void QuadrupleGenerator::finishMutationChain() {
 	operationStack.pop();
 }
 
+void QuadrupleGenerator::startConditional() {
+	pushJumpStack(procDir->getCurrentInstructionIndex(getCurrentScope()));
+	VariableRecord booleanRecord = operandStack.top(); operandStack.pop();
+	generateGotoCondQuadruple(booleanRecord);
+}
+
 void QuadrupleGenerator::finishConditionalChain() {
 	string op = operationStack.top(); operationStack.pop();
 	VariableRecord rOperand = operandStack.top(); operandStack.pop();
@@ -236,7 +236,17 @@ void QuadrupleGenerator::finishConditionalChain() {
 	generateOperationQuadruple(op, lOperand, rOperand);
 }
 
+void QuadrupleGenerator::startConditionElse() {
+	generateGotoQuadruple();
+	finishLastJump();
+	pushJumpStack(procDir->getCurrentInstructionIndex(getCurrentScope()) - 1);
+}
+
 void QuadrupleGenerator::finishConditional() {
+	finishLastJump();
+}
+
+void QuadrupleGenerator::finishLastJump() {
 	Quadruple* instruction = procDir->getInsAtIndex(getCurrentScope(), popJumpStack());
 	instruction->setResult(to_string(procDir->getCurrentInstructionIndex(getCurrentScope())));
 }

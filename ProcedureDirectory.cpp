@@ -88,9 +88,10 @@
 			functionRecord->showSignature(verbose);
 			cout << "Instructions: " << endl;
 			functionQuadruples = quadrupleMap[functionRecord->getName()];
+			int index = 0;
 			for (std::vector<Quadruple>::iterator quadruple = functionQuadruples.begin(); quadruple != functionQuadruples.end(); ++quadruple)
 			{
-				cout << *quadruple << endl;
+				cout << index++ << ": " << *quadruple << endl;
 			}
 			cout << endl;
 		}

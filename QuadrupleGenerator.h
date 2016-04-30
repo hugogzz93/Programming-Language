@@ -28,6 +28,7 @@ public:
 	void startConditional();
 	void finishConditionalChain();
 	void finishConditional();
+	void startConditionElse();
 
 	void executeMutation();
 	void finishMutationChain();
@@ -59,6 +60,7 @@ private:
 	void generateAssignmentQuadruple(VariableRecord& lOp, VariableRecord& rOp);
 	void generateGotoQuadruple();
 	void generateGotoCondQuadruple(VariableRecord evaluated);
+	void finishLastJump();
 
 };
 #endif

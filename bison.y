@@ -119,6 +119,10 @@
 	inline void finishConditional() {
 		quadGenerator.finishConditional();
 	}
+
+	inline void startConditionElse() {
+		quadGenerator.startConditionElse();
+	}
 %}
 
 %union {
@@ -360,7 +364,7 @@
 				| ALMENOS QUE ;
 
 	block_condition_else:
-				DE LO CONTRARIO ;
+				DE LO CONTRARIO { startConditionElse(); };
 
 	condition_suffix:
 				expression block_condition_pre declaration DOT ;

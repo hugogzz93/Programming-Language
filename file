@@ -27,6 +27,12 @@ programa a4,
         b es igual a la multiplicacion de 5 con 6.
     .
     De lo contrario 
+        si b es igual a 2;
+            quitale 3 a c.
+        .
+        De lo contrario
+            quitale 2 a b.
+        .
         c es igual a llama add con el entero a1 y el entero b.
         Sumale 5 a a1.
     .
