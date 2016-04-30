@@ -184,7 +184,7 @@
 			}
 		}
 
-		throw invalid_argument("Scope not " + name + " found");
+		throw invalid_argument("Scope " + name + " not found");
 	}
 
 	vector<VariableRecord>& ProcedureDirectory::getVariableDir() {
@@ -203,6 +203,10 @@
 		}
 		int vAddress = vAddressMap[scope][type]++;	
 		return vAddress;
+	}
+
+	int ProcedureDirectory::getReturnType(string functionName) {
+		getFunctionByName(functionName)->getType();
 	}
 
 	void  ProcedureDirectory::updateVariableRecord(VariableRecord& record) {
@@ -236,4 +240,11 @@
 
 	Quadruple* ProcedureDirectory::getInsAtIndex(string scope, int index) {
 		return &quadrupleMap[scope][index];
+	}
+
+	void ProcedureDirectory::setReturnTypeFlag(int retType) {
+		returnTypeFlag = retType;
+	}
+	int ProcedureDirectory::getReturnTypeFlag() {
+		return returnTypeFlag;
 	}

@@ -25,25 +25,30 @@ public:
 	void pushJumpStack(int index);
 	int popJumpStack();
 
+// conditinoals
 	void startConditional();
 	void finishConditionalChain();
 	void finishConditional();
 	void startConditionElse();
 
+// whiles
 	void finishWhile();
 
+// mutations
 	void executeMutation();
 	void finishMutationChain();
 
-	void executeOperation();
+// functions
+	void functionReturn(string returnValue);
 
+	void executeOperation();
 	void variableAssignment(string id, string operand);
 
 	int getVarFlag();
 	string getCurrentScope();
 
 	const enum {
-		fINT, fFLOAT, fSTRING, fID, fOP, fFUNC
+		fINT, fFLOAT, fSTRING, fID, fOP, fFUNC, fVOID
 	};
 
 private:
@@ -51,8 +56,10 @@ private:
 	stack<string> operationStack;
 	stack<VariableRecord> operandStack;
 	stack<int> jumpStack;
+
 	ProcedureDirectory* procDir;
 	SemanticCube semanticCube;
+
 	unordered_map<string, Quadruple> instructions;
 
 	//signals class what type of variable it will receive next
@@ -62,6 +69,8 @@ private:
 	void generateAssignmentQuadruple(VariableRecord& lOp, VariableRecord& rOp);
 	void generateGotoQuadruple(string index = "");
 	void generateGotoCondQuadruple(VariableRecord evaluated);
+	void generateReturnQuadruple(VariableRecord& operand);
+	void generateRetQuadruple();
 	void finishLastJump();
 
 };

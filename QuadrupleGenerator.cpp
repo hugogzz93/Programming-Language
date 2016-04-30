@@ -257,6 +257,59 @@ void QuadrupleGenerator::finishLastJump() {
 	instruction->setResult(to_string(procDir->getCurrentInstructionIndex(getCurrentScope())));
 }
 
+void QuadrupleGenerator::functionReturn(string returnValue) {
+	VariableRecord operand;
+	if (procDir->getReturnTypeFlag() != fVOID)
+	{
+		// printf("@-@-@-@-@-@ %s's return type flag: %d\n", getCurrentScope().c_str(), procDir->getReturnTypeFlag());
+		switch(varFlag) {
+		case fINT:
+			operand.setType("INT");
+			operand.setName("CTE-" + returnValue);
+			operand.setConstant(true);
+			break;
+
+		case fFLOAT:
+			operand.setType("FLOAT");
+			operand.setName("CTE-" + returnValue);
+			operand.setConstant(true);
+			break;
+
+		case fSTRING:
+			operand.setType("STRING");
+			operand.setName("CTE-" + returnValue);
+			operand.setConstant(true);
+			break;
+
+		case fID: {
+			VariableRecord *operandP = currentScope == "main" ? procDir->getVariableByName(returnValue, "main"): procDir->getVariableForFutureFunc(returnValue);
+			operand = *operandP;
+			break;
+		}
+
+		case fOP: 
+			operand = operandStack.top(); operandStack.pop();
+			break;
+
+		case fFUNC:
+			operand = operandStack.top(); operandStack.pop();
+			break;
+		}	
+		generateReturnQuadruple(operand);	
+	}
+	generateRetQuadruple();
+}
+
+void QuadrupleGenerator::generateReturnQuadruple(VariableRecord& operand) {
+	Quadruple instruction("RETURN", "", "", operand.expose());
+	procDir->addQuadruple(instruction, getCurrentScope());
+}
+
+void QuadrupleGenerator::generateRetQuadruple() {
+	Quadruple instruction("RET", "", "", "");
+	procDir->addQuadruple(instruction, getCurrentScope());	
+}
+
 void QuadrupleGenerator::generateOperationQuadruple(string& op, VariableRecord& lOp, VariableRecord& rOp) {
 
 	VariableRecord temp(semanticCube.getResult(op, lOp.getType(), rOp.getType()), 

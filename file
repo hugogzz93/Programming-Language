@@ -23,6 +23,15 @@ programa a4,
             .
             Regresa la suma de 5 con z.
 
+    La funcion dos regresa un vacio.
+        Adentro de la funcion,
+            recuerda esto:
+                la variable c es el string "vacio".
+
+        Regresa.
+
+
+
     Si a1 es diferente que 5; 
         b es igual a la multiplicacion de 5 con 6.
     .

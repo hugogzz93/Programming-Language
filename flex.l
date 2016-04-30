@@ -28,6 +28,7 @@
  "}" 					{ return CLOSEPARENTH; }
 
  "variable"					{ return VARIABLE; }
+ "vacio"					{ return TYPEVOID; }
  "recuerda"					{ return RECUERDA; }
  "esto"						{ return ESTO; }
  "suma"						{ return SUMA; }

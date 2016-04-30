@@ -127,6 +127,26 @@
 	inline void finishWhile() {
 		quadGenerator.finishWhile();
 	}
+
+	void functionReturn(QuadrupleGenerator& quadGenerator, char* expression) {
+		string expre(expression);
+		quadGenerator.functionReturn(expre);
+	}
+
+	void setReturnValue(QuadrupleGenerator& quadGenerator, char* retVal) {
+		string returnVal(retVal);
+		int returnValue = QuadrupleGenerator::fVOID;
+		if (returnVal == "INT")
+		{
+			returnValue = QuadrupleGenerator::fINT;
+		} else if(returnVal == "FLOAT") {
+			returnValue = QuadrupleGenerator::fFLOAT;
+		} else if(returnVal == "STRING") {
+			returnValue = QuadrupleGenerator::fSTRING;
+		} 
+		procDir.setReturnTypeFlag(returnValue);
+	}
+
 %}
 
 %union {
@@ -202,6 +222,7 @@
 %token DEL
 %token SEA
 %token TYPEINT
+%token TYPEVOID
 %token TYPEFLOAT
 %token TYPESTRING
 %token LLAMA 
@@ -219,7 +240,7 @@
 %type<sval> expression
 %type<sval> operation
 %type<sval> operator_spa
-%type<sval> function_call function_call_a
+%type<sval> function_call function_call_a func_block_b
 %type<sval> type
 %type<sval> operand
 %type<sval> operator_spa_mod
@@ -410,14 +431,18 @@
 				| for 					{ } ;
 
 	func_block:
-				vars {printf("function variables finished\n");} func_block_a REGRESA expression DOT ;
+				vars {printf("function variables finished\n");} func_block_a REGRESA func_block_b { functionReturn(quadGenerator, $5); } DOT ;
 
 	func_block_a:
 				statute func_block_a
 				| ;
 
+	func_block_b:
+				expression { $$ = $1; }
+				| 		   { $$ = ""; } ; 
+
 	function_declaration:
-				LA FUNCION ID { enterLocalScope($3); } REGRESA UN type function_declaration_a DOT function_declaration_b { printf("function header finished\n");} func_block { 	printf("Function declaration: %d\n", line_num); 
+				LA FUNCION ID { enterLocalScope($3); } REGRESA UN type {  setReturnValue(quadGenerator, $7); } function_declaration_a DOT function_declaration_b { printf("function header finished\n");} func_block { 	printf("Function declaration: %d\n", line_num); 
 																																		addFunction($7, $3); 
 																																		exitLocalScope();
 																																	} ;
@@ -449,9 +474,10 @@
 
 
 	type:
-				TYPEINT { $$ = "INT"; }
-				| TYPEFLOAT { $$ = "FLOAT"; }
-				| TYPESTRING { $$ = "STRING"; } ;  
+				TYPEINT 	 { $$ = "INT";    }
+				| TYPEFLOAT  { $$ = "FLOAT";  }
+				| TYPESTRING { $$ = "STRING"; }
+				| TYPEVOID 	 { $$ = "VOID";   } ; 
 
 	flotante: 
 				TYPEFLOAT;

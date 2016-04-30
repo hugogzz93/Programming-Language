@@ -102,13 +102,14 @@
      DEL = 318,
      SEA = 319,
      TYPEINT = 320,
-     TYPEFLOAT = 321,
-     TYPESTRING = 322,
-     LLAMA = 323,
-     INT = 324,
-     FLOAT = 325,
-     ID = 326,
-     STRING = 327
+     TYPEVOID = 321,
+     TYPEFLOAT = 322,
+     TYPESTRING = 323,
+     LLAMA = 324,
+     INT = 325,
+     FLOAT = 326,
+     ID = 327,
+     STRING = 328
    };
 #endif
 /* Tokens.  */
@@ -175,27 +176,28 @@
 #define DEL 318
 #define SEA 319
 #define TYPEINT 320
-#define TYPEFLOAT 321
-#define TYPESTRING 322
-#define LLAMA 323
-#define INT 324
-#define FLOAT 325
-#define ID 326
-#define STRING 327
+#define TYPEVOID 321
+#define TYPEFLOAT 322
+#define TYPESTRING 323
+#define LLAMA 324
+#define INT 325
+#define FLOAT 326
+#define ID 327
+#define STRING 328
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 132 "bison.y"
+#line 152 "bison.y"
 {
 	int ival;
 	float fval;
 	char *sval;
 }
 /* Line 1529 of yacc.c.  */
-#line 199 "bison.tab.h"
+#line 201 "bison.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
