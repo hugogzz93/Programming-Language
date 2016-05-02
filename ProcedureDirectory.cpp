@@ -248,3 +248,8 @@
 	int ProcedureDirectory::getReturnTypeFlag() {
 		return returnTypeFlag;
 	}
+
+	vector<VariableRecord> ProcedureDirectory::getParameterDirFor(string id) {
+		ProcedureRecord *functionRecord = getFunctionByName(id);
+		return functionRecord->getParameterDir();
+	}

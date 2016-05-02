@@ -26,7 +26,6 @@ public:
 	void setReturnTypeFlag(int retType);
 	int getReturnTypeFlag();
 
-
 	void addQuadruple(const Quadruple& quad, string scope);
 	int getCurrentInstructionIndex(string scope);
 	VariableRecord addVariableRecord(VariableRecord record);
@@ -43,6 +42,8 @@ public:
 	string getCurrentScope();
 
 	Quadruple* getInsAtIndex(string scope, int index);
+
+	vector<VariableRecord> getParameterDirFor(string id);
 	
 
 private:

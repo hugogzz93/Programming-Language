@@ -74,7 +74,6 @@
 
 	inline void addParameter(char* type, char* name) {
 		string sName(name), sType(type);
-		
 		procDir.addParameter(sType, sName);
 	}
 
@@ -147,6 +146,15 @@
 		procDir.setReturnTypeFlag(returnValue);
 	}
 
+	void prepareFunctionCall(QuadrupleGenerator& quadGenerator, char* id) {
+		string functionName(id);
+		quadGenerator.prepareFunctionCall(id);
+	}
+
+	void callFunction(QuadrupleGenerator& quadGenerator, char* id) {
+		string functName(id); 
+		quadGenerator.callFunction(id);
+	}
 %}
 
 %union {
@@ -498,14 +506,11 @@
 
 
 	function_call:
-				LLAMA ID CON function_call_a { $$ = "function"; };
+				LLAMA ID { prepareFunctionCall(quadGenerator, $2); } CON function_call_a { callFunction(quadGenerator, $2); } ;
+
 
 	function_call_a:
-				LA VARIABLE function_call_b 
-				| EL function_call_b ;
-
-	function_call_b:
-				type ID function_call_c ;
+				expression { pushLeftOperand(quadGenerator, $1);  } function_call_c ;
 
 	function_call_c:
 				function_call_d function_call_a

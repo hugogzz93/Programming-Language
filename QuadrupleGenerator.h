@@ -40,7 +40,9 @@ public:
 
 // functions
 	void functionReturn(string returnValue);
-
+	void prepareFunctionCall(string id);
+	void callFunction(string id);
+	
 	void executeOperation();
 	void variableAssignment(string id, string operand);
 
@@ -70,6 +72,7 @@ private:
 	void generateGotoQuadruple(string index = "");
 	void generateGotoCondQuadruple(VariableRecord evaluated);
 	void generateReturnQuadruple(VariableRecord& operand);
+	void generateParamQuadruple(string vAddress, int number);
 	void generateRetQuadruple();
 	void finishLastJump();
 

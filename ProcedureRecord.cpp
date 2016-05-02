@@ -112,3 +112,7 @@ string ProcedureRecord::getName() {
 string ProcedureRecord::getType() {
 	return type;
 }
+
+vector<VariableRecord> ProcedureRecord::getParameterDir() {
+	return parameterDir;
+}

@@ -1,9 +1,11 @@
 #include <stack>
 #include <stdexcept>
+#include <vector>
 #include "QuadrupleGenerator.h"
 #include "ProcedureDirectory.h"
 #include "SemanticCube.h"
 #include "Quadruple.h"
+
 using namespace std;
 
 // QuadrupleGenerator::QuadrupleGenerator(stack<string> operationStack, stack<VariableRecord> operandStack):
@@ -298,6 +300,30 @@ void QuadrupleGenerator::functionReturn(string returnValue) {
 		generateReturnQuadruple(operand);	
 	}
 	generateRetQuadruple();
+}
+
+void QuadrupleGenerator::prepareFunctionCall(string id) {
+	Quadruple instruction("ERA", "", "", id);
+	procDir->addQuadruple(instruction, getCurrentScope());
+}
+
+void QuadrupleGenerator::callFunction(string id) {
+	vector<VariableRecord> parameters = procDir->getParameterDirFor(id);
+	VariableRecord parameter;
+	for (int i = parameters.size(); i > 0; --i)
+	{
+		parameter = operandStack.top(); operandStack.pop();
+		generateParamQuadruple(parameter.expose(), i);
+	}
+	
+	Quadruple instruction("GOSUB", "", "", id);
+	procDir->addQuadruple(instruction, getCurrentScope());
+}
+
+void QuadrupleGenerator::generateParamQuadruple(string vAddress, int number) {
+	string sequence = "param" + to_string(number);
+	Quadruple instruction("param", vAddress, "", sequence);
+	procDir->addQuadruple(instruction, getCurrentScope());
 }
 
 void QuadrupleGenerator::generateReturnQuadruple(VariableRecord& operand) {

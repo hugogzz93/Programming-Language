@@ -22,10 +22,10 @@ public:
 	void showSignature(bool verbose = false);
 
 	VariableRecord *getVariableByName(string name);
-	// VariableRecord getVariableByName(string name);
 
 	string getName();
 	string getType();
+	vector<VariableRecord> getParameterDir();
 
 private:
 	string name, type;
